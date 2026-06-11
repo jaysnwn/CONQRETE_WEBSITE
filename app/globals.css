@@ -500,6 +500,7 @@ footer { padding:40px; display:flex; justify-content:space-between; align-items:
   nav { grid-template-columns: 1fr auto !important; padding: 0 18px !important; height: 56px !important; }
   .nav-links { display: none !important; }
   .hamburger { display: flex !important; }
+  .mobile-menu { display: flex !important; }
 
   .nav-logo { font-size: 20px !important; }
   .nav-logo .dot { font-size: 24px !important; }
