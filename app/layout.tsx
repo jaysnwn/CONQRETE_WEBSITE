@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 // Using the @/ alias and the exact lowercase (kebab-case) filenames
@@ -12,6 +12,13 @@ export const metadata: Metadata = {
   description: 'Earphones. Power banks. Cables. Adapters. Built for the relentless.',
 };
 
+// 1. This officially tells Next.js to scale the site correctly on mobile
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -20,6 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark">
       <head>
+        {/* 2. Backup meta tag to ensure mobile browsers understand the scale */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@300;400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
