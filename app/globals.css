@@ -127,6 +127,14 @@ footer { padding:40px; display:flex; justify-content:space-between; align-items:
 [data-theme="light"] .social-link:hover { color:#ff4500; }
 
 /* ====== HOME PAGE ====== */
+
+/* ====== HOME PAGE: WHAT'S COMING SECTION ====== */
+.products-section { padding:100px 40px; transition:background 0.5s; }
+.section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:60px; border-bottom:1px solid var(--border); padding-bottom:24px; transition:border-color 0.5s; }
+.section-title { font-family:'Black Han Sans',sans-serif; font-size:clamp(36px,5vw,64px); letter-spacing:-0.01em; line-height:1; color:var(--text); transition:color 0.5s; }
+.section-num { font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:0.3em; color:var(--muted); transition:color 0.5s; }
+.product-icon { font-size:44px; margin-bottom:22px; display:block; }
+
 .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:120px 40px 60px; position:relative; overflow:hidden; }
 .bg-word { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Black Han Sans',sans-serif; font-size:clamp(100px,22vw,320px); color:transparent; -webkit-text-stroke:1px var(--border); white-space:nowrap; letter-spacing:-0.02em; pointer-events:none; animation:bgPulse 8s ease-in-out infinite; transition:-webkit-text-stroke-color 0.5s; }
 @keyframes bgPulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
@@ -242,7 +250,7 @@ footer { padding:40px; display:flex; justify-content:space-between; align-items:
 [data-theme="light"] .notify-success { color:#f0ede6; }
 
 /* ====== ABOUT PAGE ====== */
-.about-hero { min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 40px 80px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+.about-hero { min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:140 40px 80px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
 .hero-bg-text { position:absolute; bottom:-40px; left:-20px; font-family:'Black Han Sans',sans-serif; font-size:clamp(120px,25vw,380px); color:transparent; -webkit-text-stroke:1px var(--border); white-space:nowrap; pointer-events:none; letter-spacing:-0.03em; line-height:1; animation:bgPulse 8s ease-in-out infinite; }
 .about-eyebrow { font-family:'Share Tech Mono',monospace; font-size:12px; letter-spacing:0.4em; color:var(--acid); text-transform:uppercase; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
 .about-eyebrow::before { content:''; display:block; width:40px; height:2px; background:var(--acid); }
