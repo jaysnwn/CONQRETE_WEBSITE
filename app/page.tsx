@@ -59,7 +59,7 @@ export default function Home() {
     };
   }, []);
 
-  // Handle the Lightning / Light Canvas connected to your Global ThemeToggle
+  // Handle the Lightning Canvas - UPDATED FOR LIGHT MODE + DARK SHADOWS
   useEffect(() => {
     const flashEl = document.getElementById('lightningFlash');
     const lCanvas = document.getElementById('stormCanvas') as HTMLCanvasElement;
@@ -85,7 +85,14 @@ export default function Home() {
       if (Math.random() < 0.35 && depth > 2) drawBolt(mx, my, mx + (Math.random() - 0.5) * 200, my + Math.random() * (lCanvas.height * 0.3), rough / 3, color, w * 0.4, depth - 2);
       
       lCtx.beginPath(); lCtx.moveTo(x1, y1); lCtx.lineTo(mx, my); lCtx.lineTo(x2, y2);
-      lCtx.strokeStyle = color; lCtx.lineWidth = w; lCtx.shadowBlur = 20; lCtx.shadowColor = color; lCtx.globalAlpha = 0.9; lCtx.stroke();
+      lCtx.strokeStyle = color; 
+      lCtx.lineWidth = w; 
+      
+      // Forces a dark drop shadow so the #c8ff00 pops against the off-white screen
+      lCtx.shadowBlur = 6; 
+      lCtx.shadowColor = 'rgba(0,0,0,0.5)'; 
+      lCtx.globalAlpha = 0.9; 
+      lCtx.stroke();
     }
 
     function flash(v: string) {
@@ -96,19 +103,18 @@ export default function Home() {
 
     function triggerLightning() {
       if (!stormRunning || !lCtx) return;
-      const dark = isDark;
-      const mainCol = dark ? 'rgba(200,255,0,.5)' : 'rgba(255,69,0,.5)';
-      const mainCol2 = dark ? 'rgba(200,255,0,.8)' : 'rgba(255,69,0,.8)';
-      const boltCol = dark ? '#c8ff00' : '#ff4500';
-      const flashCol = dark ? 'rgba(200,255,0,0.12)' : 'rgba(255,69,0,0.08)';
+      const mainCol = 'rgba(200,255,0,0.6)';
+      const mainCol2 = 'rgba(200,255,0,1)';
+      const boltCol = '#c8ff00';
+      const flashCol = 'rgba(200,255,0,0.05)';
 
       lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
       const sx = lCanvas.width * (0.1 + Math.random() * 0.8);
       const ex = sx + (Math.random() - 0.5) * 400;
       const ey = lCanvas.height * (0.4 + Math.random() * 0.5);
       
-      [{ w: 12, a: 0.06, blur: 60, c: mainCol }, { w: 6, a: 0.18, blur: 30, c: mainCol2 }, { w: 2, a: 1, blur: 8, c: '#fff' }]
-        .forEach(p => { lCtx.globalAlpha = p.a; lCtx.shadowBlur = p.blur; lCtx.shadowColor = p.c; drawBolt(sx, 0, ex, ey, 180, p.c, p.w, 7); });
+      [{ w: 10, a: 0.2, c: mainCol }, { w: 4, a: 0.6, c: mainCol2 }, { w: 1.5, a: 1, c: boltCol }]
+        .forEach(p => { lCtx.globalAlpha = p.a; drawBolt(sx, 0, ex, ey, 180, p.c, p.w, 7); });
 
       if(flashEl) flashEl.style.background = flashCol;
       flash('0.15'); setTimeout(() => flash('0.28'), 60);
@@ -118,8 +124,8 @@ export default function Home() {
         if (!stormRunning) return;
         lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
         const x1 = lCanvas.width * (0.1 + Math.random() * 0.8), x2 = x1 + (Math.random() - 0.5) * 250;
-        lCtx.globalAlpha = 0.6; lCtx.shadowBlur = 20; lCtx.shadowColor = mainCol2;
-        drawBolt(x1, 0, x2, lCanvas.height * (0.3 + Math.random() * 0.4), 100, boltCol, 1.5, 5);
+        lCtx.globalAlpha = 0.6; lCtx.shadowBlur = 10; lCtx.shadowColor = 'rgba(0,0,0,0.3)';
+        drawBolt(x1, 0, x2, lCanvas.height * (0.3 + Math.random() * 0.4), 100, boltCol, 2, 5);
         flash('0.1'); setTimeout(() => lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height), 100);
       }, 250);
     }
@@ -131,7 +137,7 @@ export default function Home() {
 
     function startStorm() {
       stormRunning = true;
-      if(flashEl) flashEl.style.background = isDark ? 'rgba(200,255,0,0.12)' : 'rgba(255,69,0,0.06)';
+      if(flashEl) flashEl.style.background = 'rgba(200,255,0,0.05)';
       lCanvas.style.opacity = '1';
       setTimeout(() => { triggerLightning(); scheduleLightning(); }, 800);
     }
@@ -158,36 +164,146 @@ export default function Home() {
   };
 
   return (
-    <>
+    // MASTER WRAPPER: Implements the Matte Off-White Background
+    <div style={{ backgroundColor: '#f4f4f5', color: '#000000', overflowX: 'hidden', minHeight: '100vh' }}>
+      
+      {/* 💥 THE MASTER CSS OVERRIDE 💥 
+          Safely overrides your globals.css to build the off-white/pure-white layering system */}
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Background & Typography */
+        body { background-color: #f4f4f5 !important; }
+        .bg-word { color: rgba(0,0,0,0.04) !important; z-index: 0; }
+        .hero-title, .hero-subtitle, .hero-desc, .hero-tagline, .section-title, .assembly-title { color: #000000 !important; }
+        
+        /* Fix Mobile Paragraph Legibility */
+        .hero { padding-top: 120px !important; } /* Pushes hero down to clear the navbar */
+        .hero-desc { color: #4b5563 !important; font-weight: 500 !important; font-size: 16px !important; line-height: 1.6 !important; max-width: 90%; margin-top: 1.5rem !important; margin-bottom: 1.5rem !important; }
+        .hero-tagline { color: #000000 !important; font-weight: 900 !important; font-size: 14px !important; }
+        
+        .corner-mark { color: #9ca3af !important; border-bottom: 1px solid #e4e4e7 !important; border-left: 1px solid #e4e4e7 !important; }
+        
+        /* Sections - Transparent to show the matte off-white body */
+        .assembly-section, .products-section, .notify-section, .countdown-section { background-color: transparent !important; border-top: 1px solid #e4e4e7; }
+        .section-label, .assembly-sub, .section-num { color: #6b7280 !important; font-weight: bold; }
+        
+        /* Layer 1: Pure White Cards & Panels */
+        .countdown-item { background-color: #ffffff !important; border: 1px solid #e4e4e7 !important; color: #000000 !important; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .countdown-label { color: #6b7280 !important; }
+        .countdown-sep { color: #d1d5db !important; }
+        
+        .belt-item-box { background-color: #ffffff !important; border: 1px solid #e4e4e7 !important; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .belt-item-fill { background-color: #000000 !important; }
+        .belt-item-label { color: #000000 !important; }
+        .status-item { color: #000000 !important; font-weight: bold; }
+        .status-dot { border: 1px solid rgba(0,0,0,0.2) !important; background-color: #c8ff00 !important; }
+        .status-dot.orange, .status-dot.red, .status-dot.gray { background-color: #e4e4e7 !important; }
+        
+        /* Layer 1: Product Cards */
+        .product-card { background-color: #ffffff !important; border: 1px solid #e4e4e7 !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .product-name { color: #000000 !important; }
+        .product-num { color: #6b7280 !important; font-weight: bold; }
+        .rd-scene { background-color: #f4f4f5 !important; border: 1px solid #e4e4e7 !important; color: #000000 !important; }
+        .card-progress-fill { background-color: #c8ff00 !important; border-right: 1px solid #000 !important; }
+        .card-progress { background-color: #f4f4f5 !important; border: 1px solid #e4e4e7 !important; }
+        
+        /* Component Specific Overrides */
+        .product-status { background-color: #c8ff00 !important; color: #000 !important; border: 1px solid #000 !important; font-weight: bold !important; }
+        .status-blink { background-color: #000 !important; }
+        .rd-label { color: #6b7280 !important; }
+        .rd-label span { background-color: #c8ff00 !important; color: #000 !important; border: 1px solid rgba(0,0,0,0.1) !important; }
+        .product-tag { color: #000 !important; background-color: #e4e4e7 !important; padding: 2px 6px; font-weight: bold; }
+        
+        /* Fix the R&D Animations */
+        .rd-wave { border-right-color: #000 !important; }
+        .rd-batt-body { border-color: #000 !important; }
+        .rd-batt-fill { background-color: #c8ff00 !important; }
+        .rd-batt-tip { background-color: #000 !important; }
+        .rd-batt-pct, .rd-cable-speed, .rd-volt-num, .rd-volt-unit { color: #000 !important; font-weight: bold; }
+        .rd-cable-line { background-color: #e4e4e7 !important; }
+        .rd-cable-pulse { background-color: #c8ff00 !important; }
+        
+        /* 💥 ACID GREEN NOTIFY SECTION 💥 */
+        .notify-section { 
+          background-color: #c8ff00 !important; 
+          border-top: 2px solid #000 !important; 
+          position: relative; 
+          overflow: hidden; 
+        }
+        
+        /* The Giant Background Watermark */
+        .notify-section::before {
+          content: "CONQRETE"; 
+          position: absolute; 
+          top: 50%; 
+          left: 50%; 
+          transform: translate(-50%, -50%);
+          font-size: clamp(6rem, 18vw, 24rem); 
+          font-weight: 900; 
+          color: rgba(0,0,0,0.05); 
+          z-index: 0; 
+          pointer-events: none;
+        }
+        
+        /* Pushing the actual form to the front */
+        .notify-title, .notify-form, .notify-note, .notify-success { 
+          position: relative; 
+          z-index: 10; 
+        }
+        
+        /* Form Styling */
+        .notify-input { 
+          background-color: rgba(0,0,0,0.05) !important; 
+          border: 1px solid rgba(0,0,0,0.2) !important; 
+          color: #000000 !important; 
+          box-shadow: none !important; 
+        }
+        .notify-input::placeholder { color: rgba(0,0,0,0.4) !important; }
+        
+        .notify-btn { 
+          background-color: #000000 !important; 
+          color: #ffffff !important; 
+          border: 2px solid #000000 !important; 
+          transition: all 0.3s ease; 
+        }
+        .notify-btn:hover { 
+          background-color: #ffffff !important; 
+          color: #000000 !important; 
+        }
+        
+        .notify-title { color: #000000 !important; }
+        .notify-note { color: rgba(0,0,0,0.4) !important; font-weight: bold; }
+      `}} />
+
       {/* BACKGROUND CANVAS LAYERS */}
-      <div id="stormClouds"></div>
-      <canvas id="stormCanvas"></canvas>
-      <div id="lightningFlash"></div>
-      <canvas id="lightCanvas"></canvas>
+      <div id="stormClouds" style={{ opacity: 0.05 }}></div>
+      <canvas id="stormCanvas" style={{ zIndex: 1, pointerEvents: 'none' }}></canvas>
+      <div id="lightningFlash" style={{ zIndex: 2, pointerEvents: 'none' }}></div>
+      <canvas id="lightCanvas" style={{ zIndex: 3, pointerEvents: 'none' }}></canvas>
 
       {/* HERO SECTION */}
-      <section className="hero">
+      <section className="hero" style={{ position: 'relative', zIndex: 10 }}>
         <div className="bg-word">CONQRETE</div>
         <div className="hero-inner">
           <div className="hero-content">
-            <div className="hero-eyebrow">WEARABLE TECH BRAND</div>
+            <div className="hero-eyebrow" style={{ color: '#6b7280', fontWeight: 'bold' }}>WEARABLE TECH BRAND</div>
             <h1 className="hero-title">
               <span className="glitch" data-text="CONQ">CONQ</span><br />
-              <span style={{ color: 'var(--acid)' }}>RETE</span>
+              {/* BRAND COLOR SHIFT: Block Highlight Style */}
+              <span style={{ backgroundColor: '#c8ff00', color: '#000', padding: '0 1rem', display: 'inline-block', border: '2px solid #000', transform: 'rotate(-1deg)' }}>RETE</span>
             </h1>
             <p className="hero-subtitle">New Age Technology</p>
-            <div className="accent-line"><span className="accent-line-text">SOMETHING MASSIVE IS BEING BUILT</span></div>
+          
             <p className="hero-desc">Earphones. Power banks. Cables. Adapters. Products engineered to keep up with your pace. Uncompromising in design. Built for the relentless.</p>
-            <div className="hero-tagline">BUILT FOR YOUR DAILY ABUSE<span className="tagline-dot">.</span></div>
+            <div className="hero-tagline">BUILT FOR YOUR DAILY ABUSE<span className="tagline-dot" style={{ color: '#c8ff00' }}>.</span></div>
           </div>
         </div>
-        <div className="corner-mark">COMING SOON — 2025</div>
-        <div className="hero-cut"></div>
+        <div className="corner-mark">COMING SOON — 2026</div>
+        <div className="hero-cut" style={{ borderBottomColor: '#f4f4f5' }}></div>
       </section>
 
       {/* MARQUEE */}
-      <div className="marquee-wrap">
-        <div className="marquee-track">
+      <div className="marquee-wrap" style={{ backgroundColor: '#c8ff00', borderTop: '2px solid #000', borderBottom: '2px solid #000' }}>
+        <div className="marquee-track" style={{ color: '#000', fontWeight: 900 }}>
           <div className="marquee-item">EARPHONES<span className="sep">·</span>POWER BANKS<span className="sep">·</span>TYPE-C CABLES<span className="sep">·</span>POWER ADAPTERS<span className="sep">·</span>EARPHONES<span className="sep">·</span>POWER BANKS<span className="sep">·</span>TYPE-C CABLES<span className="sep">·</span>POWER ADAPTERS<span className="sep">·</span></div>
           <div className="marquee-item">EARPHONES<span className="sep">·</span>POWER BANKS<span className="sep">·</span>TYPE-C CABLES<span className="sep">·</span>POWER ADAPTERS<span className="sep">·</span>EARPHONES<span className="sep">·</span>POWER BANKS<span className="sep">·</span>TYPE-C CABLES<span className="sep">·</span>POWER ADAPTERS<span className="sep">·</span></div>
         </div>
@@ -214,7 +330,7 @@ export default function Home() {
           <span className="assembly-sub">// LIVE BUILD STATUS</span>
         </div>
         <div className="assembly-track">
-          <div className="belt"></div>
+          <div className="belt" style={{ borderBottom: '1px solid #e4e4e7' }}></div>
           <div className="belt-items">
             <div className="belt-item"><div className="belt-item-box">🎧<span className="belt-item-spark">⚡</span><div className="belt-item-progress"><div className="belt-item-fill" style={{ width: '35%' }}></div></div></div><span className="belt-item-label">EARPHONES</span></div>
             <div className="belt-item"><div className="belt-item-box">🔧<div className="belt-item-progress"><div className="belt-item-fill" style={{ width: '80%', animationDelay: '.5s' }}></div></div></div><span className="belt-item-label">TOOLING</span></div>
@@ -245,7 +361,7 @@ export default function Home() {
           <div className="status-item"><div className="status-dot"></div>PRODUCTION ACTIVE</div>
           <div className="status-item"><div className="status-dot orange"></div>DESIGN PHASE: 60%</div>
           <div className="status-item"><div className="status-dot red"></div>TOOLING: IN PROGRESS</div>
-          <div className="status-item"><div className="status-dot gray"></div>LAUNCH: Q3 2025</div>
+          <div className="status-item"><div className="status-dot gray"></div>LAUNCH: Q3 2026</div>
         </div>
       </section>
 
@@ -351,17 +467,21 @@ export default function Home() {
           <input type="hidden" name="locale" defaultValue="en" />
           <input type="text" name="email_address_check" defaultValue="" style={{ display: 'none' }} />
         </form>
-        <div className="notify-success" id="notifySuccess" style={{ display: 'none' }}>YOU'RE ON THE LIST. ✓</div>
+        <div className="notify-success" id="notifySuccess" style={{ display: 'none', color: '#16a34a', fontWeight: 'bold' }}>YOU'RE ON THE LIST. ✓</div>
         <p className="notify-note">// NO SPAM. JUST THE DROP.</p>
       </section>
 
-      {/* REVERSE MARQUEE */}
-      <div className="marquee-wrap">
-        <div className="marquee-track" style={{ animationDirection: 'reverse', animationDuration: '32s' }}>
-          <div className="marquee-item" style={{ color: 'var(--acid)', opacity: 0.45 }}>CONQRETE<span className="sep">·</span>NEW AGE TECH<span className="sep">·</span>BUILT DIFFERENT<span className="sep">·</span>ENGINEERED FOR THE RELENTLESS<span className="sep">·</span>CONQRETE<span className="sep">·</span>NEW AGE TECH<span className="sep">·</span>BUILT DIFFERENT<span className="sep">·</span>ENGINEERED FOR THE RELENTLESS<span className="sep">·</span></div>
-          <div className="marquee-item" style={{ color: 'var(--acid)', opacity: 0.45 }}>CONQRETE<span className="sep">·</span>NEW AGE TECH<span className="sep">·</span>BUILT DIFFERENT<span className="sep">·</span>ENGINEERED FOR THE RELENTLESS<span className="sep">·</span>CONQRETE<span className="sep">·</span>NEW AGE TECH<span className="sep">·</span>BUILT DIFFERENT<span className="sep">·</span>ENGINEERED FOR THE RELENTLESS<span className="sep">·</span></div>
+     {/* REVERSE MARQUEE */}
+      <div className="marquee-wrap" style={{ backgroundColor: '#111111', borderTop: '2px solid #000' }}>
+        <div className="marquee-track" style={{ animationDirection: 'reverse', animationDuration: '32s', color: '#c8ff00', fontWeight: 900, letterSpacing: '0.1em' }}>
+          <div className="marquee-item">
+            CONQRETE<span className="sep" style={{color: '#374151'}}>·</span>NEW AGE TECH<span className="sep" style={{color: '#374151'}}>·</span>BUILT DIFFERENT<span className="sep" style={{color: '#374151'}}>·</span>ENGINEERED FOR THE RELENTLESS<span className="sep" style={{color: '#374151'}}>·</span>CONQRETE<span className="sep" style={{color: '#374151'}}>·</span>NEW AGE TECH<span className="sep" style={{color: '#374151'}}>·</span>BUILT DIFFERENT<span className="sep" style={{color: '#374151'}}>·</span>ENGINEERED FOR THE RELENTLESS<span className="sep" style={{color: '#374151'}}>·</span>
+          </div>
+          <div className="marquee-item">
+            CONQRETE<span className="sep" style={{color: '#374151'}}>·</span>NEW AGE TECH<span className="sep" style={{color: '#374151'}}>·</span>BUILT DIFFERENT<span className="sep" style={{color: '#374151'}}>·</span>ENGINEERED FOR THE RELENTLESS<span className="sep" style={{color: '#374151'}}>·</span>CONQRETE<span className="sep" style={{color: '#374151'}}>·</span>NEW AGE TECH<span className="sep" style={{color: '#374151'}}>·</span>BUILT DIFFERENT<span className="sep" style={{color: '#374151'}}>·</span>ENGINEERED FOR THE RELENTLESS<span className="sep" style={{color: '#374151'}}>·</span>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,22 +1,23 @@
 "use client";
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useEffect } from 'react';
 
+// We keep the context structure so your other pages don't crash, 
+// but we permanently hardcode it to light mode.
 export const ThemeContext = createContext({
-  isDark: true,
-  toggleTheme: () => {},
+  isDark: false,
+  toggleTheme: () => {}, 
 });
 
-export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState(true);
-
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // Force the browser body to pure white on initial load
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  }, [isDark]);
-
-  const toggleTheme = () => setIsDark(!isDark);
+    document.body.style.backgroundColor = '#ffffff';
+    document.body.style.color = '#000000';
+    document.documentElement.classList.remove('dark');
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+    <ThemeContext.Provider value={{ isDark: false, toggleTheme: () => {} }}>
       {children}
     </ThemeContext.Provider>
   );

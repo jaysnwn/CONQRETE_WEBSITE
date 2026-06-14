@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
-import ThemeProvider from '@/components/layout/theme-provider';
+import { ThemeProvider } from '@/components/layout/theme-provider'; 
 import CustomCursor from '@/components/layout/custom-cursor';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
+import { CartDrawer } from '@/components/cart-drawer';
 
 export const metadata: Metadata = {
   title: 'CONQRETE — New Age Wearable Tech',
@@ -17,7 +18,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: '#111111',
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -26,19 +27,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en">
       <head>
         {/* DO NOT put meta viewport tags here. Next.js deletes them. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@300;400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
       </head>
-      <body>
+      <body className="bg-white text-black">
         <ThemeProvider>
           <CustomCursor />
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <CartDrawer />
         </ThemeProvider>
       </body>
     </html>
