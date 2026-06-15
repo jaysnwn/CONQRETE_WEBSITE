@@ -148,12 +148,12 @@ export default function Navbar() {
           CONQ<span className="dot" style={{ color: '#c8ff00' }}>.</span>RETE
         </Link>
 
-        {/* DESKTOP LINKS */}
+        {/* 💥 FIX: CHANGED TO STANDARD <a> TAGS 💥 */}
         <div className="desktop-nav-links">
-          <Link href="/products?category=adapters" className="desktop-link">Power Adapters</Link>
-          <Link href="/products?category=cables" className="desktop-link">Power Cables</Link>
-          <Link href="/products?category=powerbanks" className="desktop-link">Power Banks</Link>
-          <Link href="/products" className="desktop-link">View All</Link>
+          <a href="/products?category=adapters" className="desktop-link">Power Adapters</a>
+          <a href="/products?category=cables" className="desktop-link">Power Cables</a>
+          <a href="/products?category=powerbanks" className="desktop-link">Power Banks</a>
+          <a href="/products" className="desktop-link">View All</a>
         </div>
 
         <div className="nav-right-group" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -185,10 +185,11 @@ export default function Navbar() {
           {/* MOBILE MENU */}
           <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} style={{ backgroundColor: '#ffffff', borderLeft: '1px solid #e5e7eb', boxShadow: '-10px 0 40px rgba(0,0,0,0.1)' }}>
             
-            <Link href="/products?category=adapters" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER ADAPTERS</Link>
-            <Link href="/products?category=cables" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER CABLES</Link>
-            <Link href="/products?category=powerbanks" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER BANKS</Link>
-            <Link href="/products" onClick={() => setMenuOpen(false)} className="mobile-nav-link">VIEW ALL [↗]</Link>
+            {/* 💥 FIX: CHANGED TO STANDARD <a> TAGS 💥 */}
+            <a href="/products?category=adapters" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER ADAPTERS</a>
+            <a href="/products?category=cables" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER CABLES</a>
+            <a href="/products?category=powerbanks" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER BANKS</a>
+            <a href="/products" onClick={() => setMenuOpen(false)} className="mobile-nav-link">VIEW ALL [↗]</a>
             
             <div style={{ padding: '2rem', display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'center' }}>
               

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 "use client";
 import { useEffect, useContext, FormEvent } from 'react';
 import { ThemeContext } from '@/components/layout/theme-provider';
