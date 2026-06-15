@@ -21,6 +21,7 @@ const CartIcon = () => (
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false); // NEW: State for the popup window
   const [isMounted, setIsMounted] = useState(false);
   
   const { toggleCart, items, isOpen } = useCartStore();
@@ -148,7 +149,7 @@ export default function Navbar() {
           CONQ<span className="dot" style={{ color: '#c8ff00' }}>.</span>RETE
         </Link>
 
-        {/* 💥 FIX: CHANGED TO STANDARD <a> TAGS 💥 */}
+        {/* DESKTOP LINKS */}
         <div className="desktop-nav-links">
           <a href="/products?category=adapters" className="desktop-link">Power Adapters</a>
           <a href="/products?category=cables" className="desktop-link">Power Cables</a>
@@ -160,10 +161,51 @@ export default function Navbar() {
           
           {/* DESKTOP ICONS */}
           <div className="desktop-actions">
-            <Link href="/profile" className="icon-btn">
-              <ProfileIcon />
-            </Link>
             
+            {/* 💥 NEW: PROFILE POPOVER SYSTEM 💥 */}
+            <div style={{ position: 'relative' }}>
+              <button 
+                onClick={() => setProfileOpen(!profileOpen)} 
+                className={`icon-btn ${profileOpen ? 'active' : ''}`}
+              >
+                <ProfileIcon />
+              </button>
+
+              {/* The actual Pop-Up Window */}
+              {profileOpen && (
+                <div style={{ 
+                  position: 'absolute', 
+                  top: 'calc(100% + 15px)', 
+                  right: 0, 
+                  backgroundColor: '#ffffff', 
+                  border: '2px solid #000000', 
+                  boxShadow: '4px 4px 0px #000000', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  minWidth: '160px',
+                  zIndex: 100 
+                }}>
+                  <a href="/account" 
+                    style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', borderBottom: '2px solid #000', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                    onClick={() => setProfileOpen(false)}
+                  >
+                    ACCOUNT
+                  </a>
+                  <a href="/orders" 
+                    style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                    onClick={() => setProfileOpen(false)}
+                  >
+                    ORDERS
+                  </a>
+                </div>
+              )}
+            </div>
+            
+            {/* CART BUTTON */}
             <button onClick={toggleCart} className={`icon-btn ${isOpen ? 'active' : ''}`}>
               <CartIcon />
               {itemCount > 0 && (
@@ -175,7 +217,7 @@ export default function Navbar() {
           {/* HAMBURGER ICON */}
           <div 
             className={`hamburger-wrapper ${menuOpen ? 'open' : ''}`} 
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => { setMenuOpen(!menuOpen); setProfileOpen(false); }}
           >
             <span style={{ backgroundColor: '#000', width: '28px', height: '3px', display: 'block', transition: '0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }}></span>
             <span style={{ backgroundColor: '#000', width: '28px', height: '3px', display: 'block', transition: '0.3s', opacity: menuOpen ? 0 : 1 }}></span>
@@ -185,21 +227,26 @@ export default function Navbar() {
           {/* MOBILE MENU */}
           <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} style={{ backgroundColor: '#ffffff', borderLeft: '1px solid #e5e7eb', boxShadow: '-10px 0 40px rgba(0,0,0,0.1)' }}>
             
-            {/* 💥 FIX: CHANGED TO STANDARD <a> TAGS 💥 */}
             <a href="/products?category=adapters" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER ADAPTERS</a>
             <a href="/products?category=cables" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER CABLES</a>
             <a href="/products?category=powerbanks" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER BANKS</a>
             <a href="/products" onClick={() => setMenuOpen(false)} className="mobile-nav-link">VIEW ALL [↗]</a>
             
-            <div style={{ padding: '2rem', display: 'flex', gap: '1rem', marginTop: '1rem', justifyContent: 'center' }}>
+            <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
               
-              <Link href="/profile" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '16px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, transition: 'all 0.2s' }}>
-                <ProfileIcon />
-              </Link>
+              {/* 💥 NEW: MOBILE SPLIT BUTTONS FOR ACCOUNT/ORDERS 💥 */}
+              <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+                <a href="/account" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+                  ACCOUNT
+                </a>
+                <a href="/orders" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+                  ORDERS
+                </a>
+              </div>
               
               <button 
                 onClick={() => { setMenuOpen(false); toggleCart(); }} 
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '16px', border: '2px solid #000', backgroundColor: '#c8ff00', color: '#000', fontWeight: 900, cursor: 'pointer', flexGrow: 2, transition: 'all 0.2s' }}
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', padding: '16px', border: '2px solid #000', backgroundColor: '#c8ff00', color: '#000', fontWeight: 900, cursor: 'pointer', width: '100%', transition: 'all 0.2s' }}
               >
                 <CartIcon /> CART [{itemCount}]
               </button>

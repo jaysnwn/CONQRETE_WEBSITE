@@ -1,10 +1,35 @@
-
 "use client";
-import { useEffect, useContext, FormEvent } from 'react';
+import { useEffect, useContext, FormEvent, useState } from 'react';
 import { ThemeContext } from '@/components/layout/theme-provider';
 
 export default function Home() {
   const { isDark } = useContext(ThemeContext);
+
+  // 💥 CAROUSEL STATE & IMAGE ARRAY 💥
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const slides = [
+    "/hero_img_01.png",
+    "/hero_img_02.png",
+    "/hero_img_03.png",
+    "/hero_img_04.png"
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  // AUTOPLAY SLIDER CLOCK
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 4500); 
+    return () => clearInterval(timer);
+  }, [currentSlide]);
 
   // Handle all the live counters and countdown timer
   useEffect(() => {
@@ -60,7 +85,7 @@ export default function Home() {
     };
   }, []);
 
-  // Handle the Lightning Canvas - UPDATED FOR LIGHT MODE + DARK SHADOWS
+  // Handle the Lightning Canvas
   useEffect(() => {
     const flashEl = document.getElementById('lightningFlash');
     const lCanvas = document.getElementById('stormCanvas') as HTMLCanvasElement;
@@ -89,7 +114,6 @@ export default function Home() {
       lCtx.strokeStyle = color; 
       lCtx.lineWidth = w; 
       
-      // Forces a dark drop shadow so the #c8ff00 pops against the off-white screen
       lCtx.shadowBlur = 6; 
       lCtx.shadowColor = 'rgba(0,0,0,0.5)'; 
       lCtx.globalAlpha = 0.9; 
@@ -165,29 +189,22 @@ export default function Home() {
   };
 
   return (
-    // MASTER WRAPPER: Implements the Matte Off-White Background
     <div style={{ backgroundColor: '#f4f4f5', color: '#000000', overflowX: 'hidden', minHeight: '100vh' }}>
       
-      {/* 💥 THE MASTER CSS OVERRIDE 💥 
-          Safely overrides your globals.css to build the off-white/pure-white layering system */}
       <style dangerouslySetInnerHTML={{__html: `
         /* Background & Typography */
-        body { background-color: #f4f4f5 !important; }
+        body { background-color: #f4f4f5 !important; margin: 0; padding: 0; }
         .bg-word { color: rgba(0,0,0,0.04) !important; z-index: 0; }
         .hero-title, .hero-subtitle, .hero-desc, .hero-tagline, .section-title, .assembly-title { color: #000000 !important; }
         
-        /* Fix Mobile Paragraph Legibility */
-        .hero { padding-top: 120px !important; } /* Pushes hero down to clear the navbar */
         .hero-desc { color: #4b5563 !important; font-weight: 500 !important; font-size: 16px !important; line-height: 1.6 !important; max-width: 90%; margin-top: 1.5rem !important; margin-bottom: 1.5rem !important; }
         .hero-tagline { color: #000000 !important; font-weight: 900 !important; font-size: 14px !important; }
         
         .corner-mark { color: #9ca3af !important; border-bottom: 1px solid #e4e4e7 !important; border-left: 1px solid #e4e4e7 !important; }
         
-        /* Sections - Transparent to show the matte off-white body */
         .assembly-section, .products-section, .notify-section, .countdown-section { background-color: transparent !important; border-top: 1px solid #e4e4e7; }
         .section-label, .assembly-sub, .section-num { color: #6b7280 !important; font-weight: bold; }
         
-        /* Layer 1: Pure White Cards & Panels */
         .countdown-item { background-color: #ffffff !important; border: 1px solid #e4e4e7 !important; color: #000000 !important; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .countdown-label { color: #6b7280 !important; }
         .countdown-sep { color: #d1d5db !important; }
@@ -199,7 +216,6 @@ export default function Home() {
         .status-dot { border: 1px solid rgba(0,0,0,0.2) !important; background-color: #c8ff00 !important; }
         .status-dot.orange, .status-dot.red, .status-dot.gray { background-color: #e4e4e7 !important; }
         
-        /* Layer 1: Product Cards */
         .product-card { background-color: #ffffff !important; border: 1px solid #e4e4e7 !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .product-name { color: #000000 !important; }
         .product-num { color: #6b7280 !important; font-weight: bold; }
@@ -207,14 +223,12 @@ export default function Home() {
         .card-progress-fill { background-color: #c8ff00 !important; border-right: 1px solid #000 !important; }
         .card-progress { background-color: #f4f4f5 !important; border: 1px solid #e4e4e7 !important; }
         
-        /* Component Specific Overrides */
         .product-status { background-color: #c8ff00 !important; color: #000 !important; border: 1px solid #000 !important; font-weight: bold !important; }
         .status-blink { background-color: #000 !important; }
         .rd-label { color: #6b7280 !important; }
         .rd-label span { background-color: #c8ff00 !important; color: #000 !important; border: 1px solid rgba(0,0,0,0.1) !important; }
         .product-tag { color: #000 !important; background-color: #e4e4e7 !important; padding: 2px 6px; font-weight: bold; }
         
-        /* Fix the R&D Animations */
         .rd-wave { border-right-color: #000 !important; }
         .rd-batt-body { border-color: #000 !important; }
         .rd-batt-fill { background-color: #c8ff00 !important; }
@@ -223,7 +237,6 @@ export default function Home() {
         .rd-cable-line { background-color: #e4e4e7 !important; }
         .rd-cable-pulse { background-color: #c8ff00 !important; }
         
-        /* 💥 ACID GREEN NOTIFY SECTION 💥 */
         .notify-section { 
           background-color: #c8ff00 !important; 
           border-top: 2px solid #000 !important; 
@@ -231,7 +244,6 @@ export default function Home() {
           overflow: hidden; 
         }
         
-        /* The Giant Background Watermark */
         .notify-section::before {
           content: "CONQRETE"; 
           position: absolute; 
@@ -245,13 +257,11 @@ export default function Home() {
           pointer-events: none;
         }
         
-        /* Pushing the actual form to the front */
         .notify-title, .notify-form, .notify-note, .notify-success { 
           position: relative; 
           z-index: 10; 
         }
         
-        /* Form Styling */
         .notify-input { 
           background-color: rgba(0,0,0,0.05) !important; 
           border: 1px solid rgba(0,0,0,0.2) !important; 
@@ -273,6 +283,104 @@ export default function Home() {
         
         .notify-title { color: #000000 !important; }
         .notify-note { color: rgba(0,0,0,0.4) !important; font-weight: bold; }
+
+        /* 💥 RESPONSIVE SLIDER CSS (UPDATED FOR MINIMAL AESTHETIC) 💥 */
+        .hero-carousel-container {
+          position: relative;
+          width: 100vw;
+          left: 50%;
+          transform: translateX(-50%);
+          margin-top: 75px; /* Clears the navbar */
+          overflow: hidden;
+          background-color: #f4f4f5;
+        }
+
+        .carousel-track {
+          display: flex;
+          transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          width: 100%;
+        }
+
+        .carousel-slide {
+          width: 100vw;
+          flex-shrink: 0;
+          display: flex;
+          justify-content: center;
+        }
+
+        .carousel-img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+
+        /* Transparent, Glassmorphic Industry-Standard Arrows */
+        .carousel-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          width: 44px;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          font-weight: 300;
+          font-size: 20px;
+          cursor: pointer;
+          z-index: 20;
+          transition: all 0.3s ease;
+          user-select: none;
+        }
+        .carousel-arrow:hover {
+          background: rgba(0, 0, 0, 0.5);
+          border-color: rgba(255, 255, 255, 0.3);
+          transform: translateY(-50%) scale(1.05);
+        }
+        .carousel-arrow:active {
+          transform: translateY(-50%) scale(0.95);
+        }
+        .arrow-left { left: 32px; }
+        .arrow-right { right: 32px; }
+
+        /* Minimal Floating Navigation Dots */
+        .carousel-dots {
+          position: absolute;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          gap: 10px;
+          z-index: 20;
+        }
+        .carousel-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.4);
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .carousel-dot.active {
+          background: #ffffff;
+          transform: scale(1.3);
+          box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+        .carousel-dot:hover:not(.active) {
+          background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Hide arrows on very small mobile screens to keep it clean */
+        @media (max-width: 768px) {
+          .carousel-arrow { display: none; }
+          .hero-carousel-container { margin-top: 60px; }
+          .carousel-dot { width: 6px; height: 6px; }
+        }
       `}} />
 
       {/* BACKGROUND CANVAS LAYERS */}
@@ -281,25 +389,43 @@ export default function Home() {
       <div id="lightningFlash" style={{ zIndex: 2, pointerEvents: 'none' }}></div>
       <canvas id="lightCanvas" style={{ zIndex: 3, pointerEvents: 'none' }}></canvas>
 
-      {/* HERO SECTION */}
-      <section className="hero" style={{ position: 'relative', zIndex: 10 }}>
-        <div className="bg-word">CONQRETE</div>
-        <div className="hero-inner">
-          <div className="hero-content">
-            <div className="hero-eyebrow" style={{ color: '#6b7280', fontWeight: 'bold' }}>WEARABLE TECH BRAND</div>
-            <h1 className="hero-title">
-              <span className="glitch" data-text="CONQ">CONQ</span><br />
-              {/* BRAND COLOR SHIFT: Block Highlight Style */}
-              <span style={{ backgroundColor: '#c8ff00', color: '#000', padding: '0 1rem', display: 'inline-block', border: '2px solid #000', transform: 'rotate(-1deg)' }}>RETE</span>
-            </h1>
-            <p className="hero-subtitle">New Age Technology</p>
-          
-            <p className="hero-desc">Earphones. Power banks. Cables. Adapters. Products engineered to keep up with your pace. Uncompromising in design. Built for the relentless.</p>
-            <div className="hero-tagline">BUILT FOR YOUR DAILY ABUSE<span className="tagline-dot" style={{ color: '#c8ff00' }}>.</span></div>
-          </div>
+      {/* 💥 MULTI-IMAGE AUTO-SLIDER 💥 */}
+      <section className="hero-carousel-container" style={{ position: 'relative', zIndex: 10 }}>
+        
+        {/* Navigation Arrows */}
+        <div className="carousel-arrow arrow-left" onClick={prevSlide}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
         </div>
-        <div className="corner-mark">COMING SOON — 2026</div>
-        <div className="hero-cut" style={{ borderBottomColor: '#f4f4f5' }}></div>
+        <div className="carousel-arrow arrow-right" onClick={nextSlide}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+
+        {/* Sliding Visual Track */}
+        <div 
+          className="carousel-track" 
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {slides.map((url, index) => (
+            <div className="carousel-slide" key={index}>
+              <img 
+                src={url} 
+                alt={`Conqrete Campaign ${index + 1}`} 
+                className="carousel-img" 
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Floating Minimal Dots */}
+        <div className="carousel-dots">
+          {slides.map((_, index) => (
+            <div 
+              key={index}
+              className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}
+              onClick={() => setCurrentSlide(index)}
+            />
+          ))}
+        </div>
       </section>
 
       {/* MARQUEE */}
