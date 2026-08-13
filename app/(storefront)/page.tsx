@@ -18,7 +18,7 @@ export default function Home() {
       <HeroCarousel />
 
       {/* 2. Press Bar — "As Seen In" immediately after hero */}
-      <PressBar />
+      {/* <PressBar /> */}
 
       {/* 3. USP Strip — quick trust signals */}
       <UspStrip />
@@ -42,7 +42,7 @@ export default function Home() {
       <Testimonials />
 
       {/* 10. Instagram UGC Feed — real-world proof */}
-      <InstagramFeed />
+      {/* <InstagramFeed /> */}
 
       {/* 11. Newsletter — capture intent */}
       <NotifyForm />

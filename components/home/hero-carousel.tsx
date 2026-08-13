@@ -87,9 +87,33 @@ const carouselStyles = `
   .hero-cta-btn.secondary:hover {
     background: rgba(255,255,255,0.1);
   }
-  @media (max-width: 640px) {
-    .hero-cta { left: 20px; bottom: 56px; }
-    .hero-cta-btn { padding: 12px 20px; font-size: 13px; }
+  @media (max-width: 768px) {
+    .hero-cta {
+      position: static;
+      margin-top: 24px;
+      justify-content: center;
+      width: 100%;
+    }
+    .hero-cta-btn {
+      flex: 1;
+      text-align: center;
+      padding: 14px 20px;
+    }
+    .hero-cta-btn.secondary {
+      color: #111827;
+      border-color: #e5e7eb;
+    }
+    .carousel-arrow {
+      width: 32px;
+      height: 32px;
+    }
+    .carousel-arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+    .arrow-left { left: 12px; }
+    .arrow-right { right: 12px; }
+    .carousel-dots { bottom: 12px; }
   }
 `;
 
@@ -176,11 +200,6 @@ export default function HeroCarousel() {
           ))}
         </div>
 
-        {/* Hero CTA Buttons */}
-        <div className="hero-cta">
-          <a href="/products" className="hero-cta-btn">Shop Now</a>
-          <a href="/products" className="hero-cta-btn secondary">View All Products</a>
-        </div>
 
         {/* Floating Minimal Dots */}
         <div className="carousel-dots" role="tablist">
@@ -196,6 +215,14 @@ export default function HeroCarousel() {
           ))}
         </div>
       </div>
+
+      {/* Hero CTA Buttons */}
+      <div className="hero-cta">
+        <a href="/products" className="hero-cta-btn">Shop Now</a>
+        <a href="/products" className="hero-cta-btn secondary">View All Products</a>
+      </div>
+
+
     </section>
   );
 }

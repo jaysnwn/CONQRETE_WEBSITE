@@ -58,11 +58,7 @@ export default function CategoryNav() {
         </Link>
       </div>
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '16px',
-      }}>
+      <div className="category-nav-grid">
         {categories.map((cat) => (
           <Link
             key={cat.name}
@@ -103,14 +99,25 @@ export default function CategoryNav() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .category-nav-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
+        .category-nav-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
         }
-        @media (max-width: 480px) {
+        @media (max-width: 900px) {
           .category-nav-grid {
-            grid-template-columns: 1fr !important;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 8px;
+            gap: 16px;
+          }
+          .category-nav-grid > a {
+            flex: 0 0 65%;
+            scroll-snap-align: center;
+          }
+          .category-nav-grid::-webkit-scrollbar {
+            display: none;
           }
         }
       `}</style>

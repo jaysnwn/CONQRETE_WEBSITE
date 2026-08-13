@@ -8,11 +8,10 @@ export default function BrandStory() {
       padding: '80px 24px',
       fontFamily: 'system-ui, sans-serif',
     }}>
-      <div style={{
+      <div className="brand-story-grid" style={{
         maxWidth: '1280px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
         gap: '80px',
         alignItems: 'center',
       }}>
@@ -81,7 +80,7 @@ export default function BrandStory() {
           <p style={{ fontSize: '13px', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 16px 0' }}>
             Our Story
           </p>
-          <h2 style={{ fontSize: '40px', fontWeight: 800, color: '#111827', lineHeight: 1.15, margin: '0 0 24px 0', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: 'clamp(32px, 5vw, 40px)', fontWeight: 800, color: '#111827', lineHeight: 1.15, margin: '0 0 24px 0', letterSpacing: '-0.02em' }}>
             We were tired of cables that break in two weeks.
           </h2>
           <p style={{ fontSize: '16px', color: '#4b5563', lineHeight: 1.7, margin: '0 0 20px 0' }}>
@@ -130,6 +129,12 @@ export default function BrandStory() {
           </Link>
         </div>
       </div>
+      <style>{`
+        .brand-story-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 900px) {
+          .brand-story-grid { grid-template-columns: 1fr; gap: 40px !important; }
+        }
+      `}</style>
     </section>
   );
 }

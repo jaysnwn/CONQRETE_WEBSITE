@@ -47,7 +47,7 @@ export default function Certifications() {
         </div>
 
         {/* Certs Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+        <div className="cert-grid">
           {certs.map((cert) => (
             <div
               key={cert.name}
@@ -77,6 +77,29 @@ export default function Certifications() {
           ))}
         </div>
       </div>
+      <style>{`
+        .cert-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+        }
+        @media (max-width: 900px) {
+          .cert-grid {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 8px;
+            gap: 16px;
+          }
+          .cert-grid > div {
+            flex: 0 0 75%;
+            scroll-snap-align: center;
+          }
+          .cert-grid::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      `}</style>
     </section>
   );
 }

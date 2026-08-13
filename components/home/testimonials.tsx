@@ -66,11 +66,13 @@ export default function Testimonials() {
         {/* Scrollable row */}
         <div style={{
           display: 'flex',
-          gap: '20px',
+          gap: '16px',
           overflowX: 'auto',
           paddingBottom: '16px',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
+          scrollSnapType: 'x mandatory',
+          scrollPaddingLeft: '24px',
         }}>
           {testimonials.map((review) => (
             <div
@@ -86,6 +88,7 @@ export default function Testimonials() {
                 flexDirection: 'column',
                 gap: '12px',
                 flexShrink: 0,
+                scrollSnapAlign: 'start',
               }}
             >
               {/* Stars */}
