@@ -1,7 +1,8 @@
 "use client";
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { useCartStore } from '@/store/cart';
+import { useCartStore } from '#/store/cart';
 
 // Minimalist SVG Icons
 const ProfileIcon = () => (
@@ -19,7 +20,7 @@ const CartIcon = () => (
   </svg>
 );
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false); // NEW: State for the popup window
   const [isMounted, setIsMounted] = useState(false);
@@ -145,16 +146,36 @@ export default function Navbar() {
       <nav style={{ position: 'fixed', top: 0, width: '100%', borderBottom: '4px solid #c8ff00', backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', zIndex: 50, padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
         {/* LOGO */}
-        <Link href="/" className="nav-logo" style={{ color: '#000', fontSize: '2.2rem', fontWeight: 900, textDecoration: 'none', letterSpacing: '0.05em', fontFamily: '"Black Han Sans", sans-serif', lineHeight: 1 }}>
-          CONQ<span className="dot" style={{ color: '#c8ff00' }}>.</span>RETE
+        <Link href="/" className="nav-logo" style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '4px 0', 
+          textDecoration: 'none', 
+          fontFamily: '"Black Han Sans", sans-serif', 
+          lineHeight: 0.85
+        }}>
+          <span style={{ 
+            color: '#000000', 
+            fontSize: '1.6rem', 
+            fontWeight: 900, 
+            letterSpacing: '-0.02em',
+            clipPath: 'inset(0% 0 0 0)'
+          }}>CONQ</span>
+          <span style={{ 
+            color: '#000000', 
+            fontSize: '1.6rem', 
+            fontWeight: 900, 
+            letterSpacing: '-0.02em'
+          }}>RETE</span>
         </Link>
 
         {/* DESKTOP LINKS */}
         <div className="desktop-nav-links">
-          <a href="/products?category=adapters" className="desktop-link">Power Adapters</a>
-          <a href="/products?category=cables" className="desktop-link">Power Cables</a>
-          <a href="/products?category=powerbanks" className="desktop-link">Power Banks</a>
-          <a href="/products" className="desktop-link">View All</a>
+          <Link href="/adapters" className="desktop-link">Power Adapters</Link>
+          <Link href="/cables" className="desktop-link">Power Cables</Link>
+          <Link href="/powerbanks" className="desktop-link">Power Banks</Link>
+          <Link href="/products" className="desktop-link">View All</Link>
         </div>
 
         <div className="nav-right-group" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -167,6 +188,8 @@ export default function Navbar() {
               <button 
                 onClick={() => setProfileOpen(!profileOpen)} 
                 className={`icon-btn ${profileOpen ? 'active' : ''}`}
+                aria-label="Profile menu"
+                aria-expanded={profileOpen}
               >
                 <ProfileIcon />
               </button>
@@ -185,28 +208,61 @@ export default function Navbar() {
                   minWidth: '160px',
                   zIndex: 100 
                 }}>
-                  <a href="/account" 
-                    style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', borderBottom: '2px solid #000', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    ACCOUNT
-                  </a>
-                  <a href="/orders" 
-                    style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    ORDERS
-                  </a>
+                  {isLoggedIn ? (
+                    <>
+                      <a href="/account" 
+                        style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', borderBottom: '2px solid #000', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        ACCOUNT
+                      </a>
+                      <a href="/orders" 
+                        style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', borderBottom: '2px solid #000', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        ORDERS
+                      </a>
+                      <form action="/api/auth/logout" method="POST" style={{ margin: 0 }}>
+                        <button type="submit"
+                          style={{ width: '100%', textAlign: 'left', padding: '14px 16px', color: '#ff0000', fontWeight: 900, textDecoration: 'none', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s', border: 'none', background: 'transparent', cursor: 'pointer' }} 
+                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#ff000020'} 
+                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                          onClick={() => setProfileOpen(false)}
+                        >
+                          LOG OUT
+                        </button>
+                      </form>
+                    </>
+                  ) : (
+                    <>
+                      <a href="/login" 
+                        style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', borderBottom: '2px solid #000', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        LOGIN
+                      </a>
+                      <a href="/signup" 
+                        style={{ padding: '14px 16px', color: '#000', fontWeight: 900, textDecoration: 'none', fontSize: '12px', letterSpacing: '0.1em', fontFamily: 'monospace', transition: 'background 0.2s' }} 
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#c8ff00'} 
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        REGISTER
+                      </a>
+                    </>
+                  )}
                 </div>
               )}
             </div>
             
             {/* CART BUTTON */}
-            <button onClick={toggleCart} className={`icon-btn ${isOpen ? 'active' : ''}`}>
+            <button onClick={toggleCart} className={`icon-btn ${isOpen ? 'active' : ''}`} aria-label="Shopping Cart" aria-expanded={isOpen}>
               <CartIcon />
               {itemCount > 0 && (
                 <span className="cart-badge">{itemCount}</span>
@@ -215,34 +271,55 @@ export default function Navbar() {
           </div>
           
           {/* HAMBURGER ICON */}
-          <div 
+          <button 
             className={`hamburger-wrapper ${menuOpen ? 'open' : ''}`} 
             onClick={() => { setMenuOpen(!menuOpen); setProfileOpen(false); }}
+            aria-label="Toggle navigation menu"
+            aria-expanded={menuOpen}
+            style={{ background: 'transparent', border: 'none' }}
           >
             <span style={{ backgroundColor: '#000', width: '28px', height: '3px', display: 'block', transition: '0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }}></span>
             <span style={{ backgroundColor: '#000', width: '28px', height: '3px', display: 'block', transition: '0.3s', opacity: menuOpen ? 0 : 1 }}></span>
             <span style={{ backgroundColor: '#000', width: '28px', height: '3px', display: 'block', transition: '0.3s', transform: menuOpen ? 'rotate(-45deg) translate(6px, -6px)' : 'none' }}></span>
-          </div>
+          </button>
           
           {/* MOBILE MENU */}
           <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} style={{ backgroundColor: '#ffffff', borderLeft: '1px solid #e5e7eb', boxShadow: '-10px 0 40px rgba(0,0,0,0.1)' }}>
             
-            <a href="/products?category=adapters" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER ADAPTERS</a>
-            <a href="/products?category=cables" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER CABLES</a>
-            <a href="/products?category=powerbanks" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER BANKS</a>
+            <a href="/adapters" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER ADAPTERS</a>
+            <a href="/cables" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER CABLES</a>
+            <a href="/powerbanks" onClick={() => setMenuOpen(false)} className="mobile-nav-link">POWER BANKS</a>
             <a href="/products" onClick={() => setMenuOpen(false)} className="mobile-nav-link">VIEW ALL [↗]</a>
             
             <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
               
               {/* 💥 NEW: MOBILE SPLIT BUTTONS FOR ACCOUNT/ORDERS 💥 */}
-              <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-                <a href="/account" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
-                  ACCOUNT
-                </a>
-                <a href="/orders" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
-                  ORDERS
-                </a>
-              </div>
+              {isLoggedIn ? (
+                <>
+                  <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+                    <a href="/account" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+                      ACCOUNT
+                    </a>
+                    <a href="/orders" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+                      ORDERS
+                    </a>
+                  </div>
+                  <form action="/api/auth/logout" method="POST" style={{ margin: 0, width: '100%' }}>
+                    <button type="submit" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#ff0000', textDecoration: 'none', width: '100%', fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', background: 'transparent' }}>
+                      LOG OUT
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+                  <a href="/login" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+                    LOGIN
+                  </a>
+                  <a href="/signup" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
+                    REGISTER
+                  </a>
+                </div>
+              )}
               
               <button 
                 onClick={() => { setMenuOpen(false); toggleCart(); }} 

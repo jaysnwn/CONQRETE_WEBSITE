@@ -1,0 +1,97 @@
+/* =========================================================================
+   Admin isolation layer.
+
+   This file exists for ONE reason: /admin sits under the same root
+   app/layout.tsx as the storefront, so any broad/global-tag selector or
+   JS effect in the storefront's globals.css reaches in here too.
+   Everything below undoes a specific known leak. If you add a new global
+   effect to the storefront (another animation, a theme toggle, etc.),
+   check here first before assuming /admin is unaffected.
+   ========================================================================= */
+
+/* --- Nav leak: the storefront's site-wide nav positioning rules were
+   landing on .admin-nav too (same element name). Pin it back to normal
+   in-flow layout regardless of what globals.css does to `nav`. */
+.admin-shell .admin-sidebar .admin-nav{
+  position:static!important;
+  top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+  z-index:auto!important;
+  display:flex!important;
+  height:auto!important;
+  margin-top:28px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  grid-template-columns:none!important;
+  align-items:stretch!important;
+}
+
+/* --- Opacity/fade leak: Products, Orders, and "View storefront" were
+   rendering near-invisible while Overview (the only element with a solid
+   background behind its text) still read fine. That's the signature of a
+   storefront-wide "dim unless active/hovered" effect (a spotlight nav or
+   scroll-reveal animation) landing on plain nav links here too.
+
+   Scoped to .admin-sidebar specifically, not the whole shell — the product
+   form intentionally uses opacity:0 to hide a real checkbox behind a
+   custom toggle switch, and a shell-wide rule would force that visible
+   and break every toggle. The sidebar is also where the earlier nav-
+   position leak landed, so it's the right place to keep defending. */
+.admin-sidebar,
+.admin-sidebar *{
+  opacity:1!important;
+  visibility:visible!important;
+  filter:none!important;
+}
+
+/* Belt-and-suspenders: even if a toggle ever ends up inside the sidebar,
+   its hidden checkbox must stay hidden — this isn't a leak artifact. */
+.admin-toggle input{
+  opacity:0!important;
+}
+
+/* --- Cursor leak: the storefront almost certainly runs a custom-cursor
+   effect (cursor:none on <body> + a JS-driven follower element). That
+   follower only repositions on mousemove, so it freezes or disappears the
+   moment you scroll without moving the mouse. Force the native cursor
+   back on for the entire admin workspace instead of chasing the JS. */
+.admin-shell,
+.admin-shell *{
+  cursor:auto!important;
+}
+.admin-shell a,
+.admin-shell button,
+.admin-shell [role="button"],
+.admin-shell select,
+.admin-shell summary,
+.admin-shell label[for]{
+  cursor:pointer!important;
+}
+.admin-shell input,
+.admin-shell textarea{
+  cursor:text!important;
+}
+.admin-shell button:disabled,
+.admin-shell [aria-disabled="true"]{
+  cursor:not-allowed!important;
+}
+
+/* If a storefront cursor script also injects its own follower element
+   into the DOM (rather than just toggling CSS), hide it while inside the
+   admin workspace so it can't sit on top of admin content while frozen. */
+.admin-shell ~ [class*="cursor" i],
+.admin-shell ~ [id*="cursor" i]{
+  display:none!important;
+}
+
+/* --- Real fix, once you're ready:
+   Open your root app/layout.tsx and globals.css and look for:
+   1. The cursor effect — search "cursor:none" or a mousemove-driven
+      follower component.
+   2. The dim/fade effect — search for opacity transitions on `nav a`,
+      `a:not(:hover)`, or an IntersectionObserver-driven reveal class.
+   Scope both out of /admin the same way this file scopes the nav rule
+   back in — e.g. skip mounting them when usePathname().startsWith('/admin').
+   Once that's done, everything above just becomes redundant safety net
+   rather than load-bearing — you don't need to remove it.
+   ========================================================================= */
