@@ -5,6 +5,7 @@ import UspStrip from '#/components/home/usp-strip';
 import FeaturedProducts from '#/components/home/featured-products';
 import StatsCounter from '#/components/home/stats-counter';
 import BrandStory from '#/components/home/brand-story';
+import RhinoStory from '#/components/home/rhino-story';
 import Certifications from '#/components/home/certifications';
 import Testimonials from '#/components/home/testimonials';
 import InstagramFeed from '#/components/home/instagram-feed';
@@ -38,13 +39,16 @@ export default function Home() {
       {/* 8. Certifications — safety credibility */}
       <Certifications />
 
-      {/* 9. Customer Testimonials — peer validation */}
+      {/* 9. Rhino Story — Why the Rhino */}
+      <RhinoStory />
+
+      {/* 10. Customer Testimonials — peer validation */}
       <Testimonials />
 
-      {/* 10. Instagram UGC Feed — real-world proof */}
+      {/* 11. Instagram UGC Feed — real-world proof */}
       {/* <InstagramFeed /> */}
 
-      {/* 11. Newsletter — capture intent */}
+      {/* 12. Newsletter — capture intent */}
       <NotifyForm />
 
     </div>

@@ -145,29 +145,8 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
       {/* NAVBAR WITH ACID GREEN BOTTOM BORDER */}
       <nav style={{ position: 'fixed', top: 0, width: '100%', borderBottom: '4px solid #c8ff00', backgroundColor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(8px)', zIndex: 50, padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
-        {/* LOGO */}
-        <Link href="/" className="nav-logo" style={{ 
-          display: 'flex', 
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '4px 0', 
-          textDecoration: 'none', 
-          fontFamily: '"Black Han Sans", sans-serif', 
-          lineHeight: 0.85
-        }}>
-          <span style={{ 
-            color: '#000000', 
-            fontSize: '1.6rem', 
-            fontWeight: 900, 
-            letterSpacing: '-0.02em',
-            clipPath: 'inset(0% 0 0 0)'
-          }}>CONQ</span>
-          <span style={{ 
-            color: '#000000', 
-            fontSize: '1.6rem', 
-            fontWeight: 900, 
-            letterSpacing: '-0.02em'
-          }}>RETE</span>
+        <Link href="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center', padding: '4px 0', marginLeft: '-24px' }}>
+          <Image src="/logo.png?v=2" alt="CONQRETE Logo" width={140} height={48} style={{ objectFit: 'contain' }} priority unoptimized />
         </Link>
 
         {/* DESKTOP LINKS */}

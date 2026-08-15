@@ -29,7 +29,7 @@ function StatItem({ stat, started }: { stat: typeof stats[0]; started: boolean }
   const value = useCountUp(stat.value, 1800, stat.isDecimal, started);
   return (
     <div style={{ textAlign: 'center', padding: '32px 24px' }}>
-      <div style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 900, color: '#ffffff', lineHeight: 1, marginBottom: '8px', letterSpacing: '-0.02em' }}>
+      <div style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 900, color: '#ffffff', lineHeight: 1, marginBottom: '8px', letterSpacing: '-0.02em' }}>
         {stat.isDecimal ? value.toFixed(1) : value.toLocaleString('en-IN')}{stat.suffix}
       </div>
       <div style={{ fontSize: '14px', color: '#6b7280', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.06em' }}>

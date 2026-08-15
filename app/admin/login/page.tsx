@@ -56,20 +56,7 @@ export default async function AdminLoginPage({
       
       {/* Brand Logo Header */}
       <div style={{ marginBottom: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{
-          width: '45px',
-          height: '45px',
-          backgroundColor: '#c8ff00',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontWeight: 900,
-          fontSize: '24px',
-          color: '#111a00'
-        }}>
-          C
-        </div>
+        <img src="/logo.png" alt="CONQRETE Logo" style={{ height: '45px', objectFit: 'contain' }} />
       </div>
 
       {/* Login Card */}

@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const slides = [
+  "/hero_new_1.png",
+  "/hero_new_2.png",
   "/hero_img_01.png",
   "/hero_img_02.png",
   "/hero_img_03.png"
@@ -132,7 +134,7 @@ export default function HeroCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 4500); 
+    }, 7000); 
     return () => clearInterval(timer);
   }, []);
 

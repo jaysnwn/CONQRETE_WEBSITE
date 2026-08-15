@@ -90,9 +90,9 @@ export default function Footer() {
         <div className="footer-grid">
           
           {/* Col 1: Brand */}
-          <div className="footer-col" style={{ gap: '1.5rem' }}>
-            <div style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 900, letterSpacing: '0.05em', fontFamily: '"Black Han Sans", sans-serif', lineHeight: 0.9 }}>
-              CONQ<span style={{ color: '#c8ff00' }}>.</span>RETE
+          <div className="footer-col" style={{ gap: '1.5rem', alignItems: 'center', textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '-16px' }}>
+              <img src="/logo.png?v=2" alt="CONQRETE Logo" style={{ height: '64px', objectFit: 'contain' }} />
             </div>
             {/* NEW MANIFESTO QUOTE */}
             <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.6, maxWidth: '90%', fontWeight: 'bold' }}>

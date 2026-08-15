@@ -126,7 +126,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="admin-shell">
       <aside className={`admin-sidebar ${menuOpen ? 'admin-sidebar--open' : ''}`}>
         <Link href="/admin" className="admin-brand" onClick={() => setMenuOpen(false)}>
-          <span className="admin-brand-mark">C</span>
+          <img src="/logo.png" alt="CONQRETE Logo" style={{ height: '28px', objectFit: 'contain' }} />
           <span><strong>CONQRETE</strong><small>COMMAND CENTER</small></span>
         </Link>
         <nav className="admin-nav" aria-label="Administration">

@@ -15,19 +15,22 @@ export default function NotifyForm() {
 
   return (
     <section style={{
-      backgroundColor: '#111827',
+      backgroundColor: '#c8ff00',
       padding: '64px 24px',
       fontFamily: 'system-ui, sans-serif',
       textAlign: 'center',
     }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-        <p style={{ fontSize: '13px', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 12px 0' }}>
+        <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'center' }}>
+          <img src="/logo.png?v=2" alt="CONQRETE Logo" style={{ height: '64px', objectFit: 'contain' }} />
+        </div>
+        <p style={{ fontSize: '13px', fontWeight: 600, color: '#111827', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 12px 0' }}>
           Stay in the loop
         </p>
-        <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#ffffff', margin: '0 0 12px 0', lineHeight: 1.2 }}>
+        <h2 style={{ fontSize: '32px', fontWeight: 900, color: '#111827', margin: '0 0 12px 0', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
           Get early access to deals,<br />launches & offers.
         </h2>
-        <p style={{ fontSize: '15px', color: '#9ca3af', margin: '0 0 32px 0' }}>
+        <p style={{ fontSize: '15px', color: '#111827', margin: '0 0 32px 0', fontWeight: 500 }}>
           Join 5,000+ tech enthusiasts. No spam, ever.
         </p>
 
@@ -75,9 +78,9 @@ export default function NotifyForm() {
                 flex: 1,
                 padding: '14px 18px',
                 borderRadius: '8px',
-                border: '1px solid #374151',
-                backgroundColor: '#1f2937',
-                color: '#ffffff',
+                border: '1px solid #111827',
+                backgroundColor: '#ffffff',
+                color: '#111827',
                 fontSize: '15px',
                 outline: 'none',
               }}
@@ -87,8 +90,8 @@ export default function NotifyForm() {
               aria-label="Subscribe to newsletter"
               style={{
                 padding: '14px 24px',
-                backgroundColor: '#ffffff',
-                color: '#111827',
+                backgroundColor: '#111827',
+                color: '#ffffff',
                 border: 'none',
                 borderRadius: '8px',
                 fontWeight: 700,
@@ -97,15 +100,15 @@ export default function NotifyForm() {
                 whiteSpace: 'nowrap',
                 transition: 'background 0.2s ease',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#ffffff'}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1f2937'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#111827'}
             >
               Subscribe
             </button>
           </form>
         )}
 
-        <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '16px' }}>
+        <p style={{ fontSize: '12px', color: '#111827', marginTop: '16px', fontWeight: 600 }}>
           No spam. Unsubscribe anytime.
         </p>
       </div>

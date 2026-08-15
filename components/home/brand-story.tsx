@@ -5,7 +5,7 @@ export default function BrandStory() {
   return (
     <section style={{
       backgroundColor: '#ffffff',
-      padding: '80px 24px',
+      padding: '60px 24px',
       fontFamily: 'system-ui, sans-serif',
     }}>
       <div className="brand-story-grid" style={{
@@ -18,40 +18,22 @@ export default function BrandStory() {
         {/* Left: Image */}
         <div style={{
           position: 'relative',
-          aspectRatio: '4/5',
+          aspectRatio: '1/1',
+          maxHeight: '500px',
           borderRadius: '24px',
           overflow: 'hidden',
-          backgroundColor: '#111827',
+          backgroundColor: '#c8ff00',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}>
           {/* Dark premium placeholder with brand mark */}
-          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              justifyContent: 'center',
-              fontFamily: '"Black Han Sans", sans-serif', 
-              lineHeight: 0.85,
-              marginBottom: '24px'
-            }}>
-              <span style={{ 
-                color: '#000000', 
-                fontSize: '4.5rem', 
-                fontWeight: 900, 
-                letterSpacing: '-0.02em',
-                clipPath: 'inset(0% 0 0 0)'
-              }}>CONQ</span>
-              <span style={{ 
-                color: '#000000', 
-                fontSize: '4.5rem', 
-                fontWeight: 900, 
-                letterSpacing: '-0.02em'
-              }}>RETE</span>
+          <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div>
+              <img src="/logo.png" alt="CONQRETE Logo" style={{ width: '80%', maxWidth: '300px', objectFit: 'contain' }} />
             </div>
-            <div style={{ fontSize: '13px', color: '#6b7280', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              Built Different
+            <div style={{ position: 'absolute', bottom: '48px', left: '50%', transform: 'translateX(-50%)', fontSize: '13px', color: '#111827', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 900, whiteSpace: 'nowrap' }}>
+              Built For The Relentless
             </div>
           </div>
 
@@ -62,7 +44,7 @@ export default function BrandStory() {
             right: '24px',
             width: '48px',
             height: '48px',
-            border: '2px solid rgba(255,255,255,0.15)',
+            border: '2px solid rgba(0,0,0,0.15)',
             borderRadius: '50%',
           }} />
           <div style={{
@@ -71,7 +53,7 @@ export default function BrandStory() {
             left: '24px',
             width: '80px',
             height: '2px',
-            backgroundColor: 'rgba(255,255,255,0.2)',
+            backgroundColor: 'rgba(0,0,0,0.2)',
           }} />
         </div>
 
@@ -106,10 +88,7 @@ export default function BrandStory() {
               <div style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>100%</div>
               <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '2px' }}>BIS Certified</div>
             </div>
-            <div>
-              <div style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>India</div>
-              <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '2px' }}>Designed & Built</div>
-            </div>
+
           </div>
 
           <Link href="/about" style={{
