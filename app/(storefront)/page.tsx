@@ -11,12 +11,22 @@ import Testimonials from '#/components/home/testimonials';
 import InstagramFeed from '#/components/home/instagram-feed';
 import NotifyForm from '#/components/home/notify-form';
 
-export default function Home() {
+import { createClient } from '#/utils/supabase/server';
+
+export default async function Home() {
+  const supabase = await createClient();
+
+  const { data: slides } = await supabase
+    .from('hero_slides')
+    .select('image_url, link_url')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
+
   return (
     <div style={{ overflowX: 'hidden', minHeight: '100vh', backgroundColor: '#ffffff' }}>
 
       {/* 1. Hero Carousel — first impression */}
-      <HeroCarousel />
+      <HeroCarousel slides={slides || []} />
 
       {/* 2. Press Bar — "As Seen In" immediately after hero */}
       {/* <PressBar /> */}

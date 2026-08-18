@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { requirePermission, logAuditAction } from '#/utils/auth/rbac';
 import { createAdminClient } from '#/utils/supabase/admin';
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('conqrete_admin_session')?.value;
-
-  if (!session || session !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  try {
+    await requirePermission('products.create');
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 403 });
   }
 
   const payload = await request.json();
@@ -25,15 +24,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
+  await logAuditAction({
+    action: 'Category created',
+    resourceType: 'category',
+    resourceId: data.id,
+    newData: payload,
+    result: 'success',
+  });
+
   return NextResponse.json(data);
 }
 
 export async function DELETE(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('conqrete_admin_session')?.value;
-
-  if (!session || session !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  try {
+    await requirePermission('products.delete');
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 403 });
   }
 
   const url = new URL(request.url);
@@ -53,6 +59,13 @@ export async function DELETE(request: Request) {
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
+
+  await logAuditAction({
+    action: 'Category deleted',
+    resourceType: 'category',
+    resourceId: id,
+    result: 'success',
+  });
 
   return NextResponse.json({ success: true });
 }

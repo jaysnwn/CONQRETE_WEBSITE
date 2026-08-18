@@ -22,23 +22,23 @@ export default function RhinoStory() {
         
         {/* Title */}
         <p style={{ fontSize: '13px', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 16px 0' }}>
-          The Symbol
+          The Logo
         </p>
         <h2 style={{ fontSize: 'clamp(32px, 4vw, 40px)', fontWeight: 800, color: '#111827', lineHeight: 1.15, margin: '0 0 24px 0', letterSpacing: '-0.02em' }}>
           Why the Rhino?
         </h2>
         
-        {/* Story Placeholder */}
+        {/* Story */}
         <div style={{ 
           fontSize: '17px', 
           color: '#4b5563', 
           lineHeight: 1.7,
         }}>
           <p style={{ margin: '0 0 20px 0' }}>
-            [Your story about the Rhino will go here. This is a placeholder text waiting for your awesome brand story.]
+            The CONQRETE Rhino is a symbol of engineered toughness. Inspired by the rhinoceros's natural strength and resilience, its solid geometric form represents products built to withstand the impact, friction and abuse of everyday life. The horn represents the drive to conquer challenges, while the heavy, grounded silhouette represents reliability and permanence.
           </p>
-          <p style={{ margin: 0, fontStyle: 'italic', color: '#9ca3af' }}>
-            "A rhino represents strength, resilience, and an unstoppable force — exactly what our cables are designed to be."
+          <p style={{ margin: 0, fontWeight: 700, color: '#111827' }}>
+            CONQRETE isn't about making products that look tough. It's about making products that actually are.
           </p>
         </div>
       </div>

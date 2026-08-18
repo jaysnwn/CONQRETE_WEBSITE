@@ -18,7 +18,7 @@ export default async function StorefrontLayout({
     <>
 
       <Navbar isLoggedIn={isLoggedIn} />
-      <main className="min-h-screen" style={{ paddingTop: '76px' }}>
+      <main className="min-h-screen" style={{ paddingTop: 'var(--nav-height)' }}>
         {children}
       </main>
       <Footer />

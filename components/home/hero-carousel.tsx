@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const slides = [
-  "/hero_new_1.png",
-  "/hero_new_2.png",
-  "/hero_img_01.png",
-  "/hero_img_02.png",
-  "/hero_img_03.png"
+const DEFAULT_SLIDES = [
+  { image_url: "/hero_new_1.png" },
+  { image_url: "/hero_new_2.png" },
+  { image_url: "/hero_img_01.png" },
+  { image_url: "/hero_img_02.png" },
+  { image_url: "/hero_img_03.png" }
 ];
 
 const carouselStyles = `
@@ -16,7 +16,7 @@ const carouselStyles = `
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.8);
+    background: transparent;
     border: none;
     border-radius: 50%;
     width: 48px;
@@ -26,7 +26,11 @@ const carouselStyles = `
     justify-content: center;
     cursor: pointer;
     z-index: 20;
-    color: #000;
+    color: #ffffff;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .carousel-arrow:hover {
+    transform: translateY(-50%) scale(1.1);
   }
   .arrow-left { left: 20px; }
   .arrow-right { right: 20px; }
@@ -119,33 +123,34 @@ const carouselStyles = `
   }
 `;
 
-export default function HeroCarousel() {
+export default function HeroCarousel({ slides = [] }: { slides?: any[] }) {
+  const activeSlides = slides.length > 0 ? slides : DEFAULT_SLIDES;
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
   };
 
   // AUTOPLAY SLIDER CLOCK
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
     }, 7000); 
     return () => clearInterval(timer);
-  }, []);
+  }, [activeSlides.length]);
 
   return (
-    <section className="hero-carousel-container" style={{ position: 'relative', zIndex: 10, padding: '24px', boxSizing: 'border-box', backgroundColor: 'var(--bg)' }}>
+    <section className="hero-carousel-container" style={{ position: 'relative', zIndex: 10, padding: '0', boxSizing: 'border-box', backgroundColor: 'transparent' }}>
       <style dangerouslySetInnerHTML={{ __html: carouselStyles }} />
       <div 
         className="carousel-inner-wrapper" 
         style={{ 
           position: 'relative', 
-          borderRadius: '24px', 
+          borderRadius: '0', 
           overflow: 'hidden',
           width: '100%',
           maxWidth: '1920px',
@@ -187,16 +192,16 @@ export default function HeroCarousel() {
           role="region"
           aria-label="Hero Image Carousel"
         >
-          {slides.map((url, index) => (
+          {activeSlides.map((slide, index) => (
             <div className="carousel-slide" key={index} style={{ flex: '0 0 100%', width: '100%', position: 'relative' }}>
               <Image 
-                src={url} 
+                src={slide.image_url} 
                 alt={`Conqrete Campaign ${index + 1}`} 
                 className="carousel-img" 
                 width={1920}
                 height={1080}
                 priority={index === 0}
-                style={{ objectFit: 'cover', width: '100%', height: 'auto', display: 'block', borderRadius: '24px' }}
+                style={{ objectFit: 'cover', width: '100%', height: 'auto', display: 'block', borderRadius: '0' }}
               />
             </div>
           ))}
@@ -205,7 +210,7 @@ export default function HeroCarousel() {
 
         {/* Floating Minimal Dots */}
         <div className="carousel-dots" role="tablist">
-          {slides.map((_, index) => (
+          {activeSlides.map((_, index) => (
             <button 
               key={index}
               className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}

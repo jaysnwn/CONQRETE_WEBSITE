@@ -27,34 +27,12 @@ export default function BrandStory() {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          {/* Dark premium placeholder with brand mark */}
-          <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div>
-              <img src="/logo.png" alt="CONQRETE Logo" style={{ width: '80%', maxWidth: '300px', objectFit: 'contain' }} />
-            </div>
-            <div style={{ position: 'absolute', bottom: '48px', left: '50%', transform: 'translateX(-50%)', fontSize: '13px', color: '#111827', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 900, whiteSpace: 'nowrap' }}>
-              Built For The Relentless
-            </div>
-          </div>
-
-          {/* Decorative corner accent */}
-          <div style={{
-            position: 'absolute',
-            top: '24px',
-            right: '24px',
-            width: '48px',
-            height: '48px',
-            border: '2px solid rgba(0,0,0,0.15)',
-            borderRadius: '50%',
-          }} />
-          <div style={{
-            position: 'absolute',
-            bottom: '24px',
-            left: '24px',
-            width: '80px',
-            height: '2px',
-            backgroundColor: 'rgba(0,0,0,0.2)',
-          }} />
+          <Image
+            src="/brand_story.jpg"
+            alt="Built For The Relentless"
+            fill
+            style={{ objectFit: 'cover' }}
+          />
         </div>
 
         {/* Right: Story */}

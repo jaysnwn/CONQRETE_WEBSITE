@@ -91,17 +91,33 @@ export default async function AdminLoginPage({
               fontSize: '13px',
               color: '#303030',
               fontWeight: 500
-            }}>Password</label>
+            }}>Email address</label>
             <input
-              type="password"
-              name="password"
+              type="email"
+              name="email"
               autoFocus
               required
               className="admin-login-input"
             />
           </div>
 
-          {params.error && (
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '6px',
+              fontSize: '13px',
+              color: '#303030',
+              fontWeight: 500
+            }}>Password</label>
+            <input
+              type="password"
+              name="password"
+              required
+              className="admin-login-input"
+            />
+          </div>
+
+          {params.error === 'not_admin' && (
             <div style={{
               marginBottom: '16px',
               padding: '10px 12px',
@@ -112,7 +128,22 @@ export default async function AdminLoginPage({
               fontSize: '13px',
               fontWeight: 500
             }}>
-              Incorrect password. Please try again.
+              Access denied. You do not have administrator privileges.
+            </div>
+          )}
+
+          {params.error && params.error !== 'not_admin' && (
+            <div style={{
+              marginBottom: '16px',
+              padding: '10px 12px',
+              borderRadius: '6px',
+              backgroundColor: '#fbeae5',
+              border: '1px solid #e4b4a4',
+              color: '#8c2e0b',
+              fontSize: '13px',
+              fontWeight: 500
+            }}>
+              Invalid email or password. Please try again.
             </div>
           )}
 

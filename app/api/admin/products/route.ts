@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { requirePermission, logAuditAction } from '#/utils/auth/rbac';
 import { createAdminClient } from '#/utils/supabase/admin';
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('conqrete_admin_session')?.value;
-
-  if (!session || session !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  try {
+    await requirePermission('products.create');
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 403 });
   }
 
   const payload = await request.json();
@@ -60,15 +59,22 @@ export async function POST(request: Request) {
     }
   }
 
+  await logAuditAction({
+    action: 'Product created',
+    resourceType: 'product',
+    resourceId: productId,
+    newData: payload,
+    result: 'success',
+  });
+
   return NextResponse.json({ ok: true });
 }
 
 export async function PATCH(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('conqrete_admin_session')?.value;
-
-  if (!session || session !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  try {
+    await requirePermission('products.edit');
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 403 });
   }
 
   const payload = await request.json();
@@ -128,15 +134,22 @@ export async function PATCH(request: Request) {
     }
   }
 
+  await logAuditAction({
+    action: 'Product edited',
+    resourceType: 'product',
+    resourceId: productId,
+    newData: payload,
+    result: 'success',
+  });
+
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(request: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get('conqrete_admin_session')?.value;
-
-  if (!session || session !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  try {
+    await requirePermission('products.delete');
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 403 });
   }
 
   const payload = await request.json();
@@ -155,6 +168,13 @@ export async function DELETE(request: Request) {
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  await logAuditAction({
+    action: 'Product deleted',
+    resourceType: 'product',
+    resourceId: productId,
+    result: 'success',
+  });
 
   return NextResponse.json({ ok: true });
 }
