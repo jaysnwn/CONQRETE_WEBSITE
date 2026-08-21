@@ -16,7 +16,7 @@ export default function ImageUploader({ images, onChange }: { images: string[]; 
           </div>
           <CldUploadWidget 
             uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'admin_dashboard_uploads'}
-            options={{ multiple: true }}
+            options={{ multiple: true, cropping: true, croppingAspectRatio: 1, croppingShowDimensions: true, croppingCoordinatesMode: 'custom' }}
             onSuccess={(result) => {
               if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
                 const url = result.info.secure_url as string;

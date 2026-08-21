@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { uploadHeroSlide, toggleHeroSlideStatus, deleteHeroSlide, reorderHeroSlides } from './actions';
+import ImageCropper from '#/components/admin/image-cropper';
 
 export default function StorefrontClient({ initialSlides }: { initialSlides: any[] }) {
   const router = useRouter();
@@ -13,6 +14,9 @@ export default function StorefrontClient({ initialSlides }: { initialSlides: any
   // Drag and Drop state
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
 
+  // Cropping state
+  const [cropFile, setCropFile] = useState<File | null>(null);
+
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files || e.target.files.length === 0) return;
     
@@ -22,8 +26,17 @@ export default function StorefrontClient({ initialSlides }: { initialSlides: any
       return;
     }
 
+    setCropFile(file);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  }
+
+  async function handleCropComplete(croppedBlob: Blob) {
+    setCropFile(null);
     setUploading(true);
+    
     const formData = new FormData();
+    // Convert Blob back to File
+    const file = new File([croppedBlob], 'hero_slide.jpg', { type: 'image/jpeg' });
     formData.append('file', file);
     
     const res = await uploadHeroSlide(formData);
@@ -33,8 +46,6 @@ export default function StorefrontClient({ initialSlides }: { initialSlides: any
       alert(res.error);
     } else {
       router.refresh();
-      // Reset input
-      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   }
 
@@ -170,6 +181,15 @@ export default function StorefrontClient({ initialSlides }: { initialSlides: any
           </table>
         )}
       </div>
+
+      {cropFile && (
+        <ImageCropper
+          imageFile={cropFile}
+          aspectRatio={16 / 9}
+          onCropComplete={handleCropComplete}
+          onCancel={() => setCropFile(null)}
+        />
+      )}
     </div>
   );
 }

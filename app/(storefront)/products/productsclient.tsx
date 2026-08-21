@@ -45,12 +45,11 @@ export default function ProductsClient({
     const tags = Array.isArray(product.tags) && product.tags.length > 0 ? product.tags.slice(0, 2).join(' | ') : '';
 
     return (
-      <Link 
+      <div 
         key={product.id} 
-        href={`/products/${product.slug}`}
+        onClick={() => router.push(`/products/${product.slug}`)}
         style={{ 
-          textDecoration: 'none', 
-          color: 'inherit', 
+          cursor: 'pointer',
           display: 'flex', 
           flexDirection: 'column', 
           minWidth: '280px', 
@@ -172,7 +171,7 @@ export default function ProductsClient({
           </button>
 
         </div>
-      </Link>
+      </div>
     );
   };
 

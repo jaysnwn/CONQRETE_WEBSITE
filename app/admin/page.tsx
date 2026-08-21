@@ -12,8 +12,8 @@ type RecentOrder = {
 };
 
 async function getDashboardData() {
-  const supabase = createAdminClient();
   try {
+    const supabase = createAdminClient();
     const [{ count: productCount }, { count: orderCount }, { data: recentOrders }] = await Promise.all([
       supabase.from('products').select('*', { count: 'exact', head: true }),
       supabase.from('orders').select('*', { count: 'exact', head: true }),
