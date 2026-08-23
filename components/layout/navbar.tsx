@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useCartStore } from '#/store/cart';
+import LoginModal from '../auth/login-modal';
 
 // Minimalist SVG Icons
 const ProfileIcon = () => (
@@ -22,7 +23,8 @@ const CartIcon = () => (
 
 export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false); // NEW: State for the popup window
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
   const { toggleCart, items, isOpen } = useCartStore();
@@ -123,6 +125,7 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
           .desktop-nav-links { display: none !important; }
           .desktop-actions { display: none !important; }
           .hamburger-wrapper { display: flex !important; }
+          .mobile-profile-btn { display: flex !important; }
         }
 
         /* Mobile Menu Links */
@@ -165,7 +168,7 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
             {/* 💥 NEW: PROFILE POPOVER SYSTEM 💥 */}
             <div style={{ position: 'relative' }}>
               <button 
-                onClick={() => setProfileOpen(!profileOpen)} 
+                onClick={() => { if (!isLoggedIn) setIsLoginModalOpen(true); else setProfileOpen(!profileOpen); }} 
                 className={`icon-btn ${profileOpen ? 'active' : ''}`}
                 aria-label="Profile menu"
                 aria-expanded={profileOpen}
@@ -248,6 +251,15 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
               )}
             </button>
           </div>
+          {/* MOBILE PROFILE ICON */}
+          <button 
+            className="mobile-profile-btn"
+            onClick={() => { if (!isLoggedIn) setIsLoginModalOpen(true); else window.location.href = '/account'; }}
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px', display: 'none' }}
+          >
+            <ProfileIcon />
+          </button>
+
           
           {/* HAMBURGER ICON */}
           <button 
@@ -289,16 +301,7 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
                     </button>
                   </form>
                 </>
-              ) : (
-                <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-                  <a href="/login" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
-                    LOGIN
-                  </a>
-                  <a href="/signup" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '2px solid #000', color: '#000', textDecoration: 'none', flexGrow: 1, fontWeight: 900, fontSize: '12px', letterSpacing: '0.1em', transition: 'all 0.2s' }}>
-                    REGISTER
-                  </a>
-                </div>
-              )}
+              ) : null}
               
               <button 
                 onClick={() => { setMenuOpen(false); toggleCart(); }} 
