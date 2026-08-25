@@ -111,6 +111,8 @@ export default async function FeaturedProducts() {
                     </div>
                   )}
 
+                  <div style={{ flex: 1, minHeight: '16px' }} />
+
                   {/* Add to Cart - Client island below */}
                   <Link
                     href={`/products/${product.slug}`}

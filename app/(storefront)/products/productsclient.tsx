@@ -123,6 +123,8 @@ export default function ProductsClient({
             </div>
           )}
 
+          <div style={{ flex: 1, minHeight: '16px' }} />
+
           <button 
             onClick={(e) => {
               e.preventDefault();
@@ -167,7 +169,7 @@ export default function ProductsClient({
               }
             }}
           >
-            {(!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0) ? 'Sold out' : 'Add to cart'}
+            {(!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0) ? 'Sold out' : 'Quick Add'}
           </button>
 
         </div>
