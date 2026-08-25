@@ -95,19 +95,29 @@ const carouselStyles = `
   }
   @media (max-width: 768px) {
     .hero-cta {
-      position: static;
-      margin-top: 24px;
-      justify-content: center;
-      width: 100%;
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      left: auto;
+      transform: none;
+      margin-top: 0;
+      justify-content: flex-end;
+      width: auto;
+      z-index: 20;
     }
     .hero-cta-btn {
-      flex: 1;
-      text-align: center;
-      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 8px 20px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
-    .hero-cta-btn.secondary {
-      color: #111827;
-      border-color: #e5e7eb;
+    .hero-cta-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: none;
     }
     .carousel-arrow {
       width: 32px;
@@ -226,7 +236,6 @@ export default function HeroCarousel({ slides = [] }: { slides?: any[] }) {
       {/* Hero CTA Buttons */}
       <div className="hero-cta">
         <a href="/products" className="hero-cta-btn">Shop Now</a>
-        <a href="/products" className="hero-cta-btn secondary">View All Products</a>
       </div>
 
 
