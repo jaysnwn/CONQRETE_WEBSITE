@@ -16,22 +16,48 @@ export function CartDrawer() {
   const cartTotal = items.reduce((total: number, item: CartItem) => total + (item.price * item.quantity), 0);
 
   if (!isMounted) return null;
-  if (!isOpen && !isCheckoutOpen) return null;
 
   return (
     <>
       <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
       
       {/* Background Dimmer */}
-      {isOpen && (
-        <div 
-          style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 100, transition: 'opacity 0.3s ease' }} 
-          onClick={toggleCart} 
-        />
-      )}
+      <div 
+        style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: 'rgba(0,0,0,0.5)', 
+          zIndex: 100, 
+          transition: 'opacity 0.4s ease, visibility 0.4s ease',
+          opacity: isOpen ? 1 : 0,
+          visibility: isOpen ? 'visible' : 'hidden',
+          pointerEvents: isOpen ? 'auto' : 'none'
+        }} 
+        onClick={toggleCart} 
+      />
       
       {/* Sliding Drawer */}
-      <div style={{ position: 'fixed', top: 0, right: isOpen ? 0 : '-420px', height: '100%', width: '100%', maxWidth: '400px', backgroundColor: '#ffffff', boxShadow: '-4px 0 15px rgba(0,0,0,0.1)', zIndex: 101, display: 'flex', flexDirection: 'column', fontFamily: 'system-ui, sans-serif', color: '#111827', transition: 'right 0.3s ease' }}>
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        right: 0, 
+        height: '100%', 
+        width: '100%', 
+        maxWidth: '400px', 
+        backgroundColor: '#ffffff', 
+        boxShadow: isOpen ? '-4px 0 15px rgba(0,0,0,0.1)' : 'none', 
+        zIndex: 101, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        fontFamily: 'system-ui, sans-serif', 
+        color: '#111827', 
+        transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease',
+        transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+        pointerEvents: isOpen ? 'auto' : 'none'
+      }}>
         
         {/* Header */}
         <div style={{ padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb' }}>
@@ -74,7 +100,7 @@ export function CartDrawer() {
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <h3 style={{ fontSize: '14px', fontWeight: 600, margin: '0 0 4px 0', lineHeight: 1.4 }}>{item.title}</h3>
-                    <span style={{ fontSize: '14px', fontWeight: 600, marginLeft: '12px' }}>₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                    <span style={{ fontSize: '14px', fontWeight: 600, marginLeft: '12px' }}>?{(item.price * item.quantity).toLocaleString('en-IN')}</span>
                   </div>
                   
                   {item.color && <div style={{ fontSize: '13px', color: '#6b7280', marginBottom: '2px' }}>{item.color}</div>}
@@ -102,7 +128,7 @@ export function CartDrawer() {
           <div style={{ padding: '24px', borderTop: '1px solid #e5e7eb', backgroundColor: '#ffffff' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <span style={{ fontSize: '16px', fontWeight: 600 }}>Subtotal</span>
-              <span style={{ fontSize: '18px', fontWeight: 700 }}>₹{cartTotal.toLocaleString('en-IN')}</span>
+              <span style={{ fontSize: '18px', fontWeight: 700 }}>?{cartTotal.toLocaleString('en-IN')}</span>
             </div>
             <p style={{ fontSize: '13px', color: '#6b7280', marginBottom: '16px', textAlign: 'center' }}>
               Taxes and shipping calculated at checkout
@@ -135,3 +161,4 @@ export function CartDrawer() {
     </>
   );
 }
+

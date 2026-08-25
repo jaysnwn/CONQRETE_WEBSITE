@@ -34,6 +34,7 @@ function normalizeProductSummary(row: any): ProductSummary {
     category: normalizeCategory(row.category),
     created_at: row.created_at ?? null,
     updated_at: row.updated_at ?? null,
+      page_content: row.page_content || {},
     variants: Array.isArray(row.variants) ? row.variants : [],
   };
 }

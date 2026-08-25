@@ -17,6 +17,7 @@ export interface ProductSummary {
   category: ProductCategorySummary | null;
   created_at: string | null;
   updated_at: string | null;
+  page_content?: any;
   vendor?: string;
   variants?: any[];
 }

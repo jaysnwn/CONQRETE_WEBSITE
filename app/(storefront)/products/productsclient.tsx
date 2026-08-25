@@ -71,7 +71,6 @@ export default function ProductsClient({
           e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
         }}
       >
-        {/* Images Carousel */}
         <div style={{
           position: 'relative',
           width: '100%',

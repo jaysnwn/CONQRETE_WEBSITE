@@ -2,9 +2,10 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeProvider } from '#/components/layout/theme-provider'; 
+import { DynamicTitle } from '#/components/dynamic-title';
 
 export const metadata: Metadata = {
-  title: 'CONQRETE — New Age Wearable Tech',
+  title: 'CONQRETE — BUILT FOR YOUR DAILY ABUSE',
   description: 'Earphones. Power banks. Cables. Adapters. Built for the relentless.',
 };
 
@@ -30,6 +31,7 @@ export default function RootLayout({
       </head>
       <body className="bg-white text-black">
         <ThemeProvider>
+          <DynamicTitle />
           {children}
         </ThemeProvider>
       </body>

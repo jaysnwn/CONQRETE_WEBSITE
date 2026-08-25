@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { createAdminClient } from '#/utils/supabase/admin';
 import ReviewStatusToggle from '#/components/admin/review-status-toggle';
+import Link from 'next/link';
 
 export default async function AdminReviewsPage() {
   const supabase = createAdminClient();
@@ -24,6 +25,7 @@ export default async function AdminReviewsPage() {
           <h1>Product Reviews</h1>
           <p>Read and approve customer feedback before it appears on your storefront.</p>
         </div>
+        <Link href="/admin/reviews/new" className="admin-primary-action" style={{ alignSelf: "center", marginBottom: "16px" }}>Write Review</Link>
         <div className="admin-order-count">
           <strong>{items.length}</strong>
           <span>total reviews</span>
@@ -52,9 +54,9 @@ export default async function AdminReviewsPage() {
               </thead>
               <tbody>
                 {items.map((review) => {
-                  const customerName = review.customers 
+                  const customerName = review.reviewer_name || (review.customers 
                     ? `${review.customers.first_name || ''} ${review.customers.last_name || ''}`.trim() || 'Guest'
-                    : 'Guest';
+                    : 'Guest');
                     
                   return (
                     <tr key={review.id}>

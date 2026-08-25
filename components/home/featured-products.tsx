@@ -62,7 +62,6 @@ export default async function FeaturedProducts() {
                   height: '100%',
                 }}
               >
-                {/* Images Carousel */}
                 <div style={{
                   position: 'relative',
                   width: '100%',

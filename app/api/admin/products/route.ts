@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   }
 
   const payload = await request.json();
+  console.log("PAYLOAD RECEIVED:", JSON.stringify(payload.page_content, null, 2));
   const supabase = createAdminClient();
 
   const productRow = {
@@ -23,6 +24,7 @@ export async function POST(request: Request) {
     vendor: payload.vendor,
     seo_title: payload.seo_title,
     seo_description: payload.seo_description,
+    page_content: payload.page_content || {},
   };
 
   const { data, error } = await supabase.from('products').insert(productRow).select('id').single();
@@ -96,6 +98,7 @@ export async function PATCH(request: Request) {
     vendor: payload.vendor,
     seo_title: payload.seo_title,
     seo_description: payload.seo_description,
+    page_content: payload.page_content || {},
   };
 
   const { error } = await supabase.from('products').update(productRow).eq('id', productId);

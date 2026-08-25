@@ -1,14 +1,38 @@
-'use client';
+﻿'use client';
 import { useMemo } from 'react';
 import { CldUploadWidget } from 'next-cloudinary';
 
-export default function ImageUploader({ images, onChange }: { images: string[]; onChange: (value: string[] | ((prev: string[]) => string[])) => void }) {
+export default function ImageUploader({ 
+  images, 
+  onChange,
+  aspectRatio = 1,
+  disableCropping = false
+}: { 
+  images: string[]; 
+  onChange: (value: string[] | ((prev: string[]) => string[])) => void;
+  aspectRatio?: number;
+  disableCropping?: boolean;
+}) {
   const previews = useMemo(() => images.filter(Boolean), [images]);
+  
+  // Set up Cloudinary options dynamically based on props
+  const cloudinaryOptions: any = { 
+    multiple: true 
+  };
+  
+  if (!disableCropping) {
+    cloudinaryOptions.cropping = true;
+    if (aspectRatio) {
+      cloudinaryOptions.croppingAspectRatio = aspectRatio;
+    }
+    cloudinaryOptions.croppingShowDimensions = true;
+    cloudinaryOptions.croppingCoordinatesMode = 'custom';
+  }
   
   return (
     <div className="admin-image-uploader">
       <div className="admin-image-help">
-        <span>↗</span>
+        <span>📸</span>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <div>
             <strong>Image URLs</strong>
@@ -16,7 +40,7 @@ export default function ImageUploader({ images, onChange }: { images: string[]; 
           </div>
           <CldUploadWidget 
             uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'admin_dashboard_uploads'}
-            options={{ multiple: true, cropping: true, croppingAspectRatio: 1, croppingShowDimensions: true, croppingCoordinatesMode: 'custom' }}
+            options={cloudinaryOptions}
             onSuccess={(result) => {
               if (result.info && typeof result.info === 'object' && 'secure_url' in result.info) {
                 const url = result.info.secure_url as string;

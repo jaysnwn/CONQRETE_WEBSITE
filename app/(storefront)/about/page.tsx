@@ -6,84 +6,13 @@ import Link from 'next/link';
 export default function About() {
   const { isDark } = useContext(ThemeContext);
 
-  useEffect(() => {
-    const flashEl = document.getElementById('lightningFlash');
-    const lCanvas = document.getElementById('stormCanvas') as HTMLCanvasElement;
-    if (!lCanvas || !flashEl) return;
-    
-    const lCtx = lCanvas.getContext('2d');
-    let stormRunning = true;
-    let stormTimer: NodeJS.Timeout;
-
-    const resize = () => { 
-      lCanvas.width = window.innerWidth; 
-      lCanvas.height = window.innerHeight; 
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    function drawBolt(x1: number, y1: number, x2: number, y2: number, rough: number, color: string, w: number, depth: number) {
-      if (depth <= 0 || !lCtx) return;
-      const mx = (x1 + x2) / 2 + (Math.random() - 0.5) * rough;
-      const my = (y1 + y2) / 2 + (Math.random() - 0.5) * rough * 0.4;
-      drawBolt(x1, y1, mx, my, rough / 2, color, w * 0.9, depth - 1);
-      drawBolt(mx, my, x2, y2, rough / 2, color, w * 0.9, depth - 1);
-      if (Math.random() < 0.3 && depth > 2) drawBolt(mx, my, mx + (Math.random() - 0.5) * 180, my + Math.random() * (lCanvas.height * 0.35), rough / 3, color, w * 0.4, depth - 2);
-      
-      lCtx.beginPath(); lCtx.moveTo(x1, y1); lCtx.lineTo(mx, my); lCtx.lineTo(x2, y2);
-      lCtx.strokeStyle = color; lCtx.lineWidth = w; lCtx.shadowBlur = 20; lCtx.shadowColor = color; lCtx.globalAlpha = 0.9; lCtx.stroke();
-    }
-
-    function flash(v: string) {
-      if (!flashEl) return;
-      flashEl.style.transition = 'none'; flashEl.style.opacity = v;
-      setTimeout(() => { flashEl.style.transition = 'opacity .4s ease'; flashEl.style.opacity = '0'; }, 60 + Math.random() * 80);
-    }
-
-    function triggerLightning() {
-      if (!stormRunning || !lCtx) return;
-      const c1 = isDark ? 'rgba(200,255,0,.5)' : 'rgba(232,0,13,.5)';
-      const c2 = isDark ? 'rgba(200,255,0,.8)' : 'rgba(232,0,13,.8)';
-      const fc = isDark ? 'rgba(200,255,0,0.1)' : 'rgba(232,0,13,0.07)';
-      
-      lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
-      const sx = lCanvas.width * (0.1 + Math.random() * 0.8);
-      const ex = sx + (Math.random() - 0.5) * 400;
-      const ey = lCanvas.height * (0.4 + Math.random() * 0.5);
-      
-      [{ w: 12, a: 0.06, c: c1 }, { w: 6, a: 0.18, c: c2 }, { w: 2, a: 1, c: '#fff' }]
-        .forEach(p => { 
-          if (lCtx) { lCtx.globalAlpha = p.a; lCtx.shadowBlur = 40; drawBolt(sx, 0, ex, ey, 180, p.c, p.w, 7); } 
-        });
-        
-      if (flashEl) flashEl.style.background = fc; 
-      flash('0.14'); 
-      setTimeout(() => flash('0.26'), 60);
-      setTimeout(() => lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height), 180 + Math.random() * 120);
-    }
-
-    function scheduleLightning() { 
-      if (!stormRunning) return; 
-      stormTimer = setTimeout(() => { triggerLightning(); scheduleLightning(); }, 2500 + Math.random() * 7000); 
-    }
-    
-    lCanvas.style.opacity = '1';
-    const initialTimer = setTimeout(() => { triggerLightning(); scheduleLightning(); }, 800);
-
-    return () => {
-      stormRunning = false;
-      clearTimeout(stormTimer);
-      clearTimeout(initialTimer);
-      window.removeEventListener('resize', resize);
-      if (lCtx) lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
-    };
-  }, [isDark]);
+  
 
   return (
-    <>
-      {/* STORM CANVAS */}
-      <canvas id="stormCanvas"></canvas>
-      <div id="lightningFlash"></div>
+    <div style={{ backgroundColor: '#fafafa', minHeight: '100vh', position: 'relative', zIndex: 1, ...{ '--acid': '#84a800' } } as React.CSSProperties}>
+      
+      
+      
 
       {/* HERO SECTION */}
       <section className="about-hero">
@@ -131,16 +60,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* STATS SECTION */}
-      <section className="stats-section">
-        <div className="stats-grid">
-          <div className="stat-item"><span className="stat-num">04</span><span className="stat-label">Products in Dev</span></div>
-          <div className="stat-item"><span className="stat-num">2025</span><span className="stat-label">Founded</span></div>
-          <div className="stat-item"><span className="stat-num">Q3</span><span className="stat-label">Launch Target</span></div>
-          <div className="stat-item"><span className="stat-num">∞</span><span className="stat-label">Daily Abuse Tested</span></div>
-        </div>
-      </section>
-
       {/* FOUNDER SECTION */}
       <section className="founder-section">
         <div>
@@ -155,11 +74,23 @@ export default function About() {
         </div>
       </section>
 
+            {/* BRANDING SECTION */}
+      <section style={{ padding: '100px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '40px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#fafafa' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '32px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <img src="/rhino-logo.png" alt="Rhino Icon" style={{ height: '100px', objectFit: 'contain' }} />
+          <div style={{ width: '4px', height: '80px', backgroundColor: '#84a800' }}></div>
+          <img src="/logo.png?v=2" alt="CONQRETE Logo" style={{ height: '70px', objectFit: 'contain' }} />
+        </div>
+        <h2 style={{ fontFamily: '"Share Tech Mono", monospace', fontSize: 'clamp(18px, 4vw, 32px)', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#111827', margin: 0, textAlign: 'center', fontWeight: 900 }}>
+          Built for your daily abuse
+        </h2>
+      </section>
+
       {/* CTA STRIP */}
       <div className="cta-strip">
-        <div className="cta-text">See what we're<br /><span>building.</span></div>
+        <div className="cta-text">See what we have<br /><span>built.</span></div>
         <Link href="/products" className="cta-btn">VIEW PRODUCTS</Link>
       </div>
-    </>
+    </div>
   );
 }

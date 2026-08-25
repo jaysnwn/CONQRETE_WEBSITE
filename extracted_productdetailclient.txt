@@ -1,0 +1,33 @@
+$code = @'
+const fs = require('fs');
+
+const logFile = 'C:\\Users\\Jay Sonawane\\.gemini\\antigravity\\brain\\ea38b158-c04f-43f3-b77e-c7b39bbca077\\.system_generated\\logs\\transcript_full.jsonl';
+const lines = fs.readFileSync(logFile, 'utf8').split('\n').filter(Boolean);
+
+let found = false;
+
+// Search backwards for the last time productdetailclient.tsx was written via node or written completely
+for (let i = lines.length - 1; i >= 0; i--) {
+  try {
+    const entry = JSON.parse(lines[i]);
+    
+    // Look at tool calls
+    if (entry.tool_calls) {
+      for (const tc of entry.tool_calls) {
+        if (tc.name === 'run_command' && tc.args && tc.args.CommandLine) {
+          if (tc.args.CommandLine.includes('productdetailclient.tsx') && tc.args.CommandLine.includes('export default function ProductDetailClient')) {
+            console.log("Found in run_command at index " + i);
+            fs.writeFileSync('extracted_productdetailclient.txt', tc.args.CommandLine, 'utf8');
+            found = true;
+          }
+        }
+      }
+    }
+  } catch(e) {}
+  if (found) break;
+}
+
+if (!found) console.log("Not found in run_command. Looking for write_to_file...");
+'@
+$code | Out-File -FilePath find-code.js -Encoding UTF8
+node find-code.js
