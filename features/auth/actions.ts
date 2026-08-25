@@ -1,4 +1,4 @@
-﻿'use server';
+'use server';
 
 import { createClient } from '#/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
@@ -28,7 +28,7 @@ export async function sendPhoneOtp(phone: string) {
 export async function verifyPhoneOtp(phone: string, token: string) {
   const supabase = await createClient();
   
-  const { data, error } = await supabase.auth.verifyOtp({
+  const { error } = await supabase.auth.verifyOtp({
     phone,
     token,
     type: 'sms',

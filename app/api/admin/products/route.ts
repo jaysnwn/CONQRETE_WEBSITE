@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   }
 
   const payload = await request.json();
-  console.log("PAYLOAD RECEIVED:", JSON.stringify(payload.page_content, null, 2));
+  
   const supabase = createAdminClient();
 
   const productRow = {

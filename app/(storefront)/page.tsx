@@ -3,7 +3,7 @@ import PressBar from '#/components/home/press-bar';
 import CategoryNav from '#/components/home/category-nav';
 import UspStrip from '#/components/home/usp-strip';
 import FeaturedProducts from '#/components/home/featured-products';
-import StatsCounter from '#/components/home/stats-counter';
+
 import BrandStory from '#/components/home/brand-story';
 import RhinoStory from '#/components/home/rhino-story';
 import Certifications from '#/components/home/certifications';
@@ -40,8 +40,6 @@ export default async function Home() {
       {/* 5. Featured Products — live from DB */}
       <FeaturedProducts />
 
-      {/* 6. Stats Counter — social proof numbers */}
-      <StatsCounter />
 
       {/* 7. Brand Story — emotional connection */}
       <BrandStory />

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useCartStore } from '#/store/cart';
-import ImageCarousel from '#/components/ui/image-carousel';
+import ProductCard from '#/components/ui/product-card';
 
 export default function ProductsClient({ 
   products, 
@@ -37,144 +37,7 @@ export default function ProductsClient({
   };
 
   const renderProductCard = (product: any) => {
-    const mainVariant = product.variants?.[0];
-    const price = mainVariant?.price || 0;
-    const compareAt = mainVariant?.compare_at_price;
-    const discountPercent = compareAt && compareAt > price ? Math.round(((compareAt - price) / compareAt) * 100) : 0;
-    
-    const tags = Array.isArray(product.tags) && product.tags.length > 0 ? product.tags.slice(0, 2).join(' | ') : '';
-
-    return (
-      <div 
-        key={product.id} 
-        onClick={() => router.push(`/products/${product.slug}`)}
-        style={{ 
-          cursor: 'pointer',
-          display: 'flex', 
-          flexDirection: 'column', 
-          minWidth: '280px', 
-          flex: 1,
-          backgroundColor: '#ffffff',
-          borderRadius: '16px',
-          padding: '12px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-          border: '1px solid #f3f4f6',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          height: '100%'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'none';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
-        }}
-      >
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          aspectRatio: '1/1',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          marginBottom: '16px'
-        }}>
-          <ImageCarousel images={product.images || []} slug={product.slug} title={product.title} />
-        </div>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', padding: '0 4px', flex: 1 }}>
-          
-          {/* Mock Stars */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' }}>
-            <div style={{ display: 'flex', color: '#f59e0b', fontSize: '14px' }}>
-              ★★★★★
-            </div>
-            <span style={{ fontSize: '12px', color: '#6b7280' }}>(5)</span>
-          </div>
-
-          <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#111827', margin: '0 0 8px 0', lineHeight: 1.2 }}>
-            {product.title}
-          </h3>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            {compareAt && compareAt > price && (
-              <span style={{ fontSize: '16px', color: '#9ca3af', textDecoration: 'line-through', fontWeight: 500 }}>
-                ₹{compareAt.toLocaleString('en-IN')}
-              </span>
-            )}
-            <span style={{ fontSize: '18px', fontWeight: 600, color: '#111827' }}>
-              ₹{price.toLocaleString('en-IN')}
-            </span>
-            {discountPercent > 0 && (
-              <span style={{ fontSize: '14px', fontWeight: 600, color: '#16a34a' }}>
-                {discountPercent}% OFF
-              </span>
-            )}
-          </div>
-
-          {tags && (
-            <div style={{ fontSize: '13px', color: '#4b5563', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              {product.tags.slice(0, 2).map((tag: string, index: number) => (
-                <span key={index} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  {tag}
-                  {index === 0 && product.tags.length > 1 && <span style={{ color: '#000', fontWeight: 600 }}>|</span>}
-                </span>
-              ))}
-            </div>
-          )}
-
-          <div style={{ flex: 1, minHeight: '16px' }} />
-
-          <button 
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              const isOutOfStock = !mainVariant || (mainVariant.stock_quantity ?? 0) <= 0;
-              if (isOutOfStock) return;
-              
-              useCartStore.getState().addItem({
-                variantId: mainVariant.id,
-                productId: product.id,
-                title: product.title,
-                price: mainVariant.price,
-                image: mainVariant.image_url || product.images?.[0] || null,
-                color: mainVariant.color,
-                capacity: mainVariant.capacity,
-                quantity: 1
-              });
-            }}
-            disabled={!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0}
-            style={{
-              marginTop: '16px',
-              width: '100%',
-              backgroundColor: (!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0) ? '#f3f4f6' : '#111827',
-              color: (!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0) ? '#9ca3af' : '#ffffff',
-              border: 'none',
-              padding: '12px',
-              borderRadius: '8px',
-              fontWeight: 600,
-              fontSize: '14px',
-              cursor: (!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0) ? 'not-allowed' : 'pointer',
-              transition: 'background-color 0.2s ease',
-              textAlign: 'center'
-            }}
-            onMouseEnter={(e) => {
-              if (mainVariant && (mainVariant.stock_quantity ?? 0) > 0) {
-                e.currentTarget.style.backgroundColor = '#000000';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (mainVariant && (mainVariant.stock_quantity ?? 0) > 0) {
-                e.currentTarget.style.backgroundColor = '#111827';
-              }
-            }}
-          >
-            {(!mainVariant || (mainVariant.stock_quantity ?? 0) <= 0) ? 'Sold out' : 'Quick Add'}
-          </button>
-
-        </div>
-      </div>
-    );
+    return <ProductCard key={product.id} product={product} />;
   };
 
   return (

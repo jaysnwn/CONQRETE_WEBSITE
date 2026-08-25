@@ -25,7 +25,7 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   
-  const { toggleCart, items, isOpen } = useCartStore();
+  const { toggleCart, items } = useCartStore();
 
   useEffect(() => {
     setIsMounted(true);

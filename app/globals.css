@@ -93,8 +93,8 @@ body::after {
 }
 
 /* ====== CURSOR & CANVAS ====== */
-.cursor { position:fixed; width:10px; height:10px; background:var(--acid); border-radius:50%; pointer-events:none; z-index:10000; transform:translate(-50%,-50%); transition:transform 0.08s ease; box-shadow:0 0 6px var(--acid); }
-.cursor-trail { position:fixed; width:36px; height:36px; border:1.5px solid var(--acid); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:all 0.15s ease; opacity:0.5; }
+
+
 
 #stormCanvas, #lightningFlash, #lightCanvas, #stormClouds { position:fixed; pointer-events:none; transition:opacity 0.8s ease; }
 #stormCanvas { inset:0; z-index:500; opacity:0; }
@@ -187,45 +187,6 @@ footer { padding:40px; display:flex; justify-content:space-between; align-items:
 .marquee-item .sep { color:var(--acid); padding:0 36px; font-size:18px; }
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-.countdown-section { background:var(--bg2); padding:80px 40px; border-bottom:1px solid var(--border); transition:background 0.5s, border-color 0.5s; }
-.section-label { font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:0.4em; color:var(--muted); text-transform:uppercase; margin-bottom:48px; }
-.countdown-grid { display:flex; gap:0; max-width:800px; }
-.countdown-item { flex:1; text-align:center; padding:40px 20px; border:1px solid var(--border); position:relative; transition:border-color 0.3s, background 0.3s; }
-.countdown-item:hover { border-color:var(--acid); background:var(--bg3); }
-.countdown-num { font-family:'Black Han Sans',sans-serif; font-size:clamp(52px,8vw,96px); line-height:1; color:var(--text); display:block; font-variant-numeric:tabular-nums; transition:color 0.2s; }
-.countdown-item:hover .countdown-num { color:var(--acid); }
-.countdown-label { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.35em; color:var(--muted); text-transform:uppercase; margin-top:8px; display:block; }
-.countdown-sep { display:flex; align-items:center; font-family:'Black Han Sans',sans-serif; font-size:48px; color:var(--muted); align-self:flex-start; padding-top:40px; }
-
-.assembly-section { padding:80px 40px; background:var(--bg); border-bottom:1px solid var(--border); overflow:hidden; transition:background 0.5s, border-color 0.5s; }
-.assembly-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; }
-.assembly-title { font-family:'Black Han Sans',sans-serif; font-size:clamp(28px,4vw,52px); color:var(--text); letter-spacing:-0.01em; }
-.assembly-sub { font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--acid); letter-spacing:0.35em; text-transform:uppercase; }
-.assembly-track { position:relative; height:130px; border-top:2px solid var(--border); border-bottom:2px solid var(--border); overflow:hidden; background:var(--bg2); }
-.belt { position:absolute; bottom:0; left:0; right:0; height:18px; background:repeating-linear-gradient(90deg,var(--bg3) 0px,var(--bg3) 28px,var(--border) 28px,var(--border) 30px); animation:beltMove 1s linear infinite; }
-@keyframes beltMove { from{background-position:0 0} to{background-position:30px 0} }
-.belt-items { position:absolute; top:0; left:0; display:flex; gap:60px; align-items:center; height:calc(100% - 18px); animation:conveyorSlide 14s linear infinite; white-space:nowrap; padding:0 20px; }
-@keyframes conveyorSlide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.belt-item { display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0; }
-.belt-item-box { width:62px; height:62px; background:var(--belt-bg); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:26px; position:relative; overflow:hidden; animation:itemBob 2.2s ease-in-out infinite; transition:border-color 0.3s; }
-.belt-item-box:hover { border-color:var(--acid); }
-.belt-item-spark { position:absolute; top:-5px; right:-5px; font-size:13px; animation:sparkPop 3.5s ease-in-out infinite; }
-@keyframes itemBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-@keyframes sparkPop { 0%,78%,100%{opacity:0;transform:scale(0.4)} 83%{opacity:1;transform:scale(1.3) rotate(20deg)} 88%{opacity:1;transform:scale(1) rotate(-10deg)} 93%{opacity:0;transform:scale(0.7)} }
-.belt-item-progress { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(0,0,0,0.2); }
-.belt-item-fill { height:100%; background:var(--acid); animation:fillPulse 2s ease-in-out infinite; }
-@keyframes fillPulse { 0%,100%{opacity:0.55} 50%{opacity:1} }
-.belt-item-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:0.28em; color:var(--muted); text-transform:uppercase; }
-.sparks-container { position:absolute; top:20px; right:80px; pointer-events:none; }
-.spark { position:absolute; width:3px; height:3px; background:var(--acid); border-radius:50%; animation:sparkFly var(--dur,0.8s) ease-out infinite var(--delay,0s); }
-@keyframes sparkFly { 0%{transform:translate(0,0) scale(1);opacity:1} 100%{transform:translate(var(--tx,20px),var(--ty,-30px)) scale(0);opacity:0} }
-.assembly-status { display:flex; gap:28px; margin-top:22px; flex-wrap:wrap; }
-.status-item { display:flex; align-items:center; gap:8px; font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:0.25em; text-transform:uppercase; }
-.status-dot { width:8px; height:8px; border-radius:50%; background:var(--acid); animation:blink 2s infinite; }
-.status-dot.orange { background:var(--orange); animation-delay:0.5s; }
-.status-dot.red { background:var(--red); animation-delay:1s; }
-.status-dot.gray { background:var(--muted); animation:none; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.15} }
 
 
 .notify-section { background:var(--notify-bg); padding:80px 40px; position:relative; overflow:hidden; transition:background 0.5s; }
@@ -438,8 +399,8 @@ footer { padding:40px; display:flex; justify-content:space-between; align-items:
   .hero-subtitle { font-size:16px; }
   .hero-desc { font-size:15px; margin-top:20px; }
   .corner-mark { display:none; }
-  .countdown-section, .assembly-section, .notify-section, .products-main { padding:48px 20px; }
-  .countdown-grid { flex-direction:row; }
+  .notify-section, .products-main { padding:48px 20px; }
+
   .countdown-item { padding:20px 8px; }
   .countdown-sep { display:none; }
   .assembly-header { flex-direction:column; align-items:flex-start; gap:6px; }

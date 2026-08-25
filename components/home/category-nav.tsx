@@ -1,38 +1,27 @@
 "use client";
 import Link from 'next/link';
+import Image from 'next/image';
 
 const categories = [
   {
     name: 'Power Banks',
-    subtitle: 'Portable charging for every journey',
-    icon: '🔋',
     href: '/powerbanks',
-    color: '#f0fdf4',
-    border: '#bbf7d0',
+    image: '/categories/powerbanks.jpg',
   },
   {
     name: 'Power Cables',
-    subtitle: 'Fast data & charge transfers',
-    icon: '⚡',
     href: '/cables',
-    color: '#eff6ff',
-    border: '#bfdbfe',
+    image: '/categories/cables.jpg',
   },
   {
     name: 'Power Adapters',
-    subtitle: 'GaN multi-port wall chargers',
-    icon: '🔌',
     href: '/adapters',
-    color: '#fdf4ff',
-    border: '#e9d5ff',
+    image: '/categories/adapters.jpg',
   },
   {
     name: 'View All Products',
-    subtitle: 'Browse the full CONQRETE range',
-    icon: '🛍️',
     href: '/products',
-    color: '#f9fafb',
-    border: '#e5e7eb',
+    image: '/categories/viewall.jpg',
   },
 ];
 
@@ -64,36 +53,28 @@ export default function CategoryNav() {
             key={cat.name}
             href={cat.href}
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '24px',
-              backgroundColor: cat.color,
-              border: `1px solid ${cat.border}`,
+              display: 'block',
+              position: 'relative',
               borderRadius: '16px',
+              overflow: 'hidden',
               textDecoration: 'none',
-              color: 'inherit',
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               cursor: 'pointer',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)';
+              e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.1)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'none';
               e.currentTarget.style.boxShadow = 'none';
             }}
           >
-            <span style={{ fontSize: '36px', marginBottom: '16px' }}>{cat.icon}</span>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#111827', margin: '0 0 6px 0' }}>
-              {cat.name}
-            </h3>
-            <p style={{ fontSize: '13px', color: '#6b7280', margin: '0 0 16px 0', lineHeight: 1.5, flex: 1 }}>
-              {cat.subtitle}
-            </p>
-            <span style={{ fontSize: '13px', fontWeight: 600, color: '#111827', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Shop now →
-            </span>
+            <img 
+              src={cat.image} 
+              alt={cat.name} 
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
           </Link>
         ))}
       </div>
@@ -102,18 +83,18 @@ export default function CategoryNav() {
         .category-nav-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 16px;
+          gap: 20px;
         }
         @media (max-width: 900px) {
           .category-nav-grid {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
             gap: 16px;
           }
           .category-nav-grid > a {
-            flex: 0 0 65%;
+            flex: 0 0 75%;
             scroll-snap-align: center;
           }
           .category-nav-grid::-webkit-scrollbar {
