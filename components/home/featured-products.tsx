@@ -59,6 +59,7 @@ export default async function FeaturedProducts() {
                   border: '1px solid #f3f4f6',
                   display: 'flex',
                   flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 {/* Images Carousel */}

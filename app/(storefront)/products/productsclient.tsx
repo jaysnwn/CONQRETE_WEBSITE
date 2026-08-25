@@ -59,7 +59,8 @@ export default function ProductsClient({
           padding: '12px',
           boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
           border: '1px solid #f3f4f6',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          height: '100%'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-4px)';
@@ -82,7 +83,7 @@ export default function ProductsClient({
           <ImageCarousel images={product.images || []} slug={product.slug} title={product.title} />
         </div>
         
-        <div style={{ display: 'flex', flexDirection: 'column', padding: '0 4px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', padding: '0 4px', flex: 1 }}>
           
           {/* Mock Stars */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' }}>
