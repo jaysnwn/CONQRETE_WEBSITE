@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useCartStore } from '#/store/cart';
-import LoginModal from '../auth/login-modal';
+import LoginClientPage from '../../app/(storefront)/login/client-page';
 
 const ProfileIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -19,7 +19,48 @@ const HeadsetIcon = () => (
   </svg>
 );
 
-export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+const NavIconAdapter = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="7" y="6" width="10" height="12" rx="2" />
+    <path d="M9 2v4" />
+    <path d="M15 2v4" />
+    <path d="M10 18v2h4v-2" />
+    <polygon points="13 9 11 12 13 12 11 15" stroke="#f97316" />
+  </svg>
+);
+
+const NavIconCable = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="6" y="8" width="4" height="6" rx="1" />
+    <path d="M7 4v4" />
+    <path d="M9 4v4" />
+    <rect x="14" y="8" width="4" height="6" rx="1" />
+    <path d="M15 5v3" stroke="#f97316" />
+    <path d="M17 5v3" stroke="#f97316" />
+    <path d="M8 14v3a4 4 0 0 0 8 0v-3" />
+  </svg>
+);
+
+const NavIconBank = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="6" y="4" width="12" height="16" rx="2" />
+    <polygon points="13 8 10 12 13 12 11 16" stroke="#f97316" />
+    <circle cx="10" cy="18" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="18" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="14" cy="18" r="0.5" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+const NavIconViewAll = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="5" y="5" width="6" height="6" rx="1" />
+    <rect x="13" y="5" width="6" height="6" rx="1" stroke="#f97316" />
+    <rect x="5" y="13" width="6" height="6" rx="1" />
+    <rect x="13" y="13" width="6" height="6" rx="1" />
+  </svg>
+);
+
+export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { isLoggedIn?: boolean, isReviewMode?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -261,19 +302,81 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
           }
         }
 
-        .mobile-nav-link {
-          display: block;
-          color: #000;
-          font-weight: 900;
-          padding: 1.2rem 2rem;
-          border-bottom: 1px solid #f4f4f5;
-          text-decoration: none;
-          font-size: 14px;
-          transition: all 0.2s ease;
+        /* PREMIUM MOBILE MENU */
+        .premium-mobile-menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          min-width: 260px;
+          max-width: 85vw;
+          background: #ffffff;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 10px 10px 30px rgba(0,0,0,0.05);
+          border-right: 1px solid #e5e7eb;
+          border-bottom: 1px solid #e5e7eb;
+          border-bottom-right-radius: 16px;
+          overflow: hidden;
+          
+          /* Animation */
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 40;
         }
-        .mobile-nav-link:hover {
-          background-color: #f3f4f6;
-          padding-left: 2.5rem;
+        
+        .premium-mobile-menu.open {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .premium-nav-link {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 20px 24px;
+          color: #111827;
+          font-weight: 700;
+          font-size: 16px;
+          text-decoration: none;
+          border-bottom: 1px solid #f9fafb;
+          
+          /* Sequence Animation */
+          opacity: 0;
+          transform: translateX(-15px);
+          transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .premium-mobile-menu.open .premium-nav-link {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        
+        .premium-mobile-menu .premium-nav-link:nth-child(1) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
+        .premium-mobile-menu .premium-nav-link:nth-child(2) { transition-delay: 0.1s, 0.1s, 0s, 0s; }
+        .premium-mobile-menu .premium-nav-link:nth-child(3) { transition-delay: 0.15s, 0.15s, 0s, 0s; }
+        .premium-mobile-menu .premium-nav-link:nth-child(4) { transition-delay: 0.2s, 0.2s, 0s, 0s; }
+
+        .premium-nav-link:last-child {
+          border-bottom: none;
+        }
+
+        .premium-nav-link:active,
+        .premium-nav-link:hover {
+          background-color: #f8f9fa;
+          padding-left: 28px;
+        }
+
+        .premium-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          color: #111827;
+          flex-shrink: 0;
         }
       `}} />
 
@@ -367,7 +470,6 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
                         style={{ width: '100%', textAlign: 'left', padding: '14px 16px', color: '#ef4444', fontWeight: 600, textDecoration: 'none', fontSize: '13px', transition: 'background 0.2s', border: 'none', background: 'transparent', cursor: 'pointer' }} 
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fef2f2'} 
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
-                        onClick={() => setProfileOpen(false)}
                       >
                         Log Out
                       </button>
@@ -375,22 +477,22 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
                   </>
                 ) : (
                   <>
-                    <a href="/login" 
-                      style={{ padding: '14px 16px', color: '#111827', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid #f3f4f6', fontSize: '13px', transition: 'background 0.2s' }} 
+                    <button 
+                      style={{ width: '100%', textAlign: 'left', padding: '14px 16px', color: '#111827', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid #f3f4f6', fontSize: '13px', transition: 'background 0.2s', border: 'none', background: 'transparent', cursor: 'pointer' }} 
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'} 
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
-                      onClick={() => setProfileOpen(false)}
+                      onClick={() => { setProfileOpen(false); setIsLoginModalOpen(true); }}
                     >
                       Login
-                    </a>
-                    <a href="/signup" 
-                      style={{ padding: '14px 16px', color: '#111827', fontWeight: 600, textDecoration: 'none', fontSize: '13px', transition: 'background 0.2s' }} 
+                    </button>
+                    <button 
+                      style={{ width: '100%', textAlign: 'left', padding: '14px 16px', color: '#111827', fontWeight: 600, textDecoration: 'none', fontSize: '13px', transition: 'background 0.2s', border: 'none', background: 'transparent', cursor: 'pointer' }} 
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'} 
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
-                      onClick={() => setProfileOpen(false)}
+                      onClick={() => { setProfileOpen(false); setIsLoginModalOpen(true); }}
                     >
                       Register
-                    </a>
+                    </button>
                   </>
                 )}
               </div>
@@ -452,36 +554,30 @@ export default function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean })
         </div>
 
         {/* MOBILE MENU */}
-        <div className={`mobile-menu ${menuOpen ? 'open' : ''}`} style={{ backgroundColor: '#ffffff', left: 0, right: 'auto', borderRight: '1px solid #e5e7eb', borderLeft: 'none', boxShadow: '10px 0 40px rgba(0,0,0,0.05)' }}>
-          <a href="/adapters" onClick={() => setMenuOpen(false)} className="mobile-nav-link">Power Adapters</a>
-          <a href="/cables" onClick={() => setMenuOpen(false)} className="mobile-nav-link">Power Cables</a>
-          <a href="/powerbanks" onClick={() => setMenuOpen(false)} className="mobile-nav-link">Power Banks</a>
-          <a href="/products" onClick={() => setMenuOpen(false)} className="mobile-nav-link">View All [↗]</a>
-          
-          <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-            {isLoggedIn ? (
-              <>
-                <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-                  <a href="/account" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', color: '#111827', textDecoration: 'none', flexGrow: 1, fontWeight: 600, fontSize: '13px', transition: 'all 0.2s' }}>
-                    Account
-                  </a>
-                  <a href="/orders" onClick={() => setMenuOpen(false)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', color: '#111827', textDecoration: 'none', flexGrow: 1, fontWeight: 600, fontSize: '13px', transition: 'all 0.2s' }}>
-                    Orders
-                  </a>
-                </div>
-                <form action="/api/auth/logout" method="POST" style={{ margin: 0, width: '100%' }}>
-                  <button type="submit" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px', border: '1px solid #ef4444', borderRadius: '8px', color: '#ef4444', textDecoration: 'none', width: '100%', fontWeight: 600, fontSize: '13px', background: 'transparent' }}>
-                    Log Out
-                  </button>
-                </form>
-              </>
-            ) : null}
-          </div>
+        <div className={`premium-mobile-menu ${menuOpen ? 'open' : ''}`}>
+          <a href="/adapters" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+            <span className="premium-icon-wrapper"><NavIconAdapter /></span>
+            Power Adapters
+          </a>
+          <a href="/cables" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+            <span className="premium-icon-wrapper"><NavIconCable /></span>
+            Power Cables
+          </a>
+          <a href="/powerbanks" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+            <span className="premium-icon-wrapper"><NavIconBank /></span>
+            Power Banks
+          </a>
+          <a href="/products" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+            <span className="premium-icon-wrapper"><NavIconViewAll /></span>
+            View All
+          </a>
         </div>
       </nav>
 
       {/* Modals */}
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      {isLoginModalOpen && (
+        <LoginClientPage isModal onClose={() => setIsLoginModalOpen(false)} isReviewMode={isReviewMode} />
+      )}
     </>
   );
 }
