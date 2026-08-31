@@ -481,7 +481,7 @@ export default function LoginClientPage({
             )}
             
             {step === 'onboarding' && (
-              <form action={saveCustomerOnboarding} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <form action={async (formData) => { await saveCustomerOnboarding(formData); }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <p style={{ fontSize: '12px', color: '#4b5563', margin: 0 }}>
                   Welcome! Please tell us a bit about yourself.
                 </p>

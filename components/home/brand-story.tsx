@@ -59,7 +59,7 @@ export default function BrandStory() {
           {/* Mini stats row */}
           <div style={{ display: 'flex', gap: '40px', marginBottom: '40px' }}>
             <div>
-              <div style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>2024</div>
+              <div style={{ fontSize: '28px', fontWeight: 800, color: '#111827' }}>2025</div>
               <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '2px' }}>Founded</div>
             </div>
             <div>

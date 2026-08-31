@@ -16,6 +16,7 @@ const navItems = [
   { href: '/admin/discounts', label: 'Discounts', icon: 'tag', requiredPermission: 'discounts.view' },
   { href: '/admin/reviews', label: 'Reviews', icon: 'message', requiredPermission: 'products.view' },
   { href: '/admin/settings/storefront', label: 'Storefront', icon: 'image', requiredPermission: 'marketing.manage' },
+  { href: '/admin/faqs', label: 'FAQs', icon: 'message', requiredPermission: 'dashboard.view' },
   { href: '/admin/settings/team', label: 'Team & Roles', icon: 'users', requiredPermission: 'users.view' },
   { href: '/admin/settings/audit-logs', label: 'Audit Logs', icon: 'folder', requiredPermission: 'audit_logs.view' },
 ];

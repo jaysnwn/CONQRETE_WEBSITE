@@ -11,7 +11,7 @@ function StarRating({ rating }: { rating: number }) {
   const fullStars = Math.floor(rating);
   const emptyStars = 5 - fullStars;
   return (
-    <span style={{ color: '#0052FF', fontSize: '18px', letterSpacing: '2px' }}>
+    <span style={{ color: '#f59e0b', fontSize: '18px', letterSpacing: '2px' }}>
       {'★'.repeat(fullStars)}
       {'☆'.repeat(emptyStars)}
     </span>
@@ -56,9 +56,9 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
   reviews.forEach(r => ratingCounts[r.rating as keyof typeof ratingCounts]++);
 
   return (
-    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', padding: 'clamp(20px, 4vw, 40px) clamp(12px, 3vw, 20px)', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
       
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
         
         {/* Main Product Card */}
         <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', padding: 'clamp(24px, 4vw, 40px)', marginBottom: '40px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
@@ -181,7 +181,7 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', fontSize: '13px', color: '#6b7280' }}>
                 <StarRating rating={Number(avgRating)} /> 
-                <a href="#reviews" style={{ color: '#0052FF', textDecoration: 'none' }}>{totalReviews} reviews</a>
+                <a href="#reviews" style={{ color: '#4b5563', textDecoration: 'underline' }}>{totalReviews} reviews</a>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
@@ -194,7 +194,7 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
                   </span>
                 )}
                 {selectedVariant?.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price && (
-                  <span style={{ backgroundColor: '#111827', color: '#ffffff', padding: '4px 10px', borderRadius: '999px', fontSize: '11px', fontWeight: 700 }}>
+                  <span style={{ backgroundColor: '#c8ff00', color: '#000000', padding: '4px 10px', borderRadius: '999px', fontSize: '11px', fontWeight: 700 }}>
                     Save ₹{(selectedVariant.compare_at_price - selectedVariant.price).toLocaleString('en-IN')}
                   </span>
                 )}
@@ -396,9 +396,9 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
                 const percentage = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
                 return (
                   <div key={stars} style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px' }}>
-                    <span style={{ color: '#0052FF', width: '50px' }}>{'★'.repeat(stars)}{'☆'.repeat(5-stars)}</span>
+                    <span style={{ color: '#f59e0b', width: '50px' }}>{'★'.repeat(stars)}{'☆'.repeat(5-stars)}</span>
                     <div style={{ width: '120px', height: '8px', backgroundColor: '#f3f4f6', borderRadius: '4px', overflow: 'hidden' }}>
-                      <div style={{ width: `${percentage}%`, height: '100%', backgroundColor: '#0052FF' }} />
+                      <div style={{ width: `${percentage}%`, height: '100%', backgroundColor: '#f59e0b' }} />
                     </div>
                     <span style={{ color: '#6b7280', width: '20px', textAlign: 'right' }}>{count}</span>
                   </div>
@@ -407,7 +407,7 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <button style={{ backgroundColor: '#0014B3', color: 'white', padding: '12px 32px', borderRadius: '4px', border: 'none', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
+              <button style={{ backgroundColor: '#111827', color: 'white', padding: '12px 32px', borderRadius: '4px', border: 'none', fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}>
                 Write a review
               </button>
             </div>
@@ -426,7 +426,7 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontWeight: 600, color: '#111827', fontSize: '14px' }}>{review.reviewer_name}</span>
-                      <span style={{ backgroundColor: '#0052FF', color: 'white', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', fontWeight: 600 }}>Verified</span>
+                      <span style={{ backgroundColor: '#16a34a', color: 'white', fontSize: '10px', padding: '2px 6px', borderRadius: '4px', fontWeight: 600 }}>Verified</span>
                     </div>
                     {review.comment && <p style={{ fontSize: '14px', color: '#374151', lineHeight: 1.6, margin: 0 }}>{review.comment}</p>}
                   </div>

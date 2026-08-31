@@ -16,6 +16,7 @@ export default function ProductCard({ product }: { product: any }) {
     <div 
       onClick={() => router.push(`/products/${product.slug}`)}
       style={{ 
+        position: 'relative',
         cursor: 'pointer',
         display: 'flex', 
         flexDirection: 'column',
@@ -37,6 +38,25 @@ export default function ProductCard({ product }: { product: any }) {
         e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
       }}
     >
+      {discountPercent > 0 && (
+        <div style={{ 
+          position: 'absolute', 
+          top: '-2px', 
+          left: '24px', 
+          zIndex: 20, 
+          backgroundColor: '#c8ff00', 
+          color: '#000', 
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '6px 8px 12px 8px',
+          clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 4px), 83.33% 100%, 66.66% calc(100% - 4px), 50% 100%, 33.33% calc(100% - 4px), 16.66% 100%, 0 calc(100% - 4px))',
+          boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
+        }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, lineHeight: 1, marginBottom: '2px' }}>Save</span>
+          <span style={{ fontSize: '16px', fontWeight: 800, lineHeight: 1 }}>₹{(compareAt - price).toLocaleString('en-IN')}</span>
+        </div>
+      )}
       <div style={{
         position: 'relative',
         width: '100%',
@@ -45,21 +65,16 @@ export default function ProductCard({ product }: { product: any }) {
         overflow: 'hidden',
         marginBottom: '16px'
       }}>
-        {discountPercent > 0 && (
-          <div style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 10, backgroundColor: '#c8ff00', color: '#000', fontSize: '11px', fontWeight: 700, padding: '4px 10px', borderRadius: '999px' }}>
-            Save Rs. {(compareAt - price).toLocaleString('en-IN')}
-          </div>
-        )}
         <ImageCarousel images={product.images || []} slug={product.slug} title={product.title} />
       </div>
       
       <div style={{ display: 'flex', flexDirection: 'column', padding: '0 4px', flex: 1 }}>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' }}>
-          <div style={{ display: 'flex', color: '#f59e0b', fontSize: '14px' }}>
+          <div style={{ display: 'flex', color: '#d1d5db', fontSize: '14px' }}>
             ★★★★★
           </div>
-          <span style={{ fontSize: '12px', color: '#6b7280' }}>(5)</span>
+          <span style={{ fontSize: '12px', color: '#6b7280' }}>(0)</span>
         </div>
 
         <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', margin: '0 0 8px 0', lineHeight: 1.3 }}>

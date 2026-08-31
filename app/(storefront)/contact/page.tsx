@@ -6,78 +6,7 @@ import Script from 'next/script';
 export default function Contact() {
   const { isDark } = useContext(ThemeContext);
 
-  // 1. Storm Canvas Logic
-  useEffect(() => {
-    const flashEl = document.getElementById('lightningFlash');
-    const lCanvas = document.getElementById('stormCanvas') as HTMLCanvasElement;
-    if (!lCanvas || !flashEl) return;
-    
-    const lCtx = lCanvas.getContext('2d');
-    let stormRunning = true;
-    let stormTimer: NodeJS.Timeout;
 
-    const resize = () => { 
-      lCanvas.width = window.innerWidth; 
-      lCanvas.height = window.innerHeight; 
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    function drawBolt(x1: number, y1: number, x2: number, y2: number, rough: number, color: string, w: number, depth: number) {
-      if (depth <= 0 || !lCtx) return;
-      const mx = (x1 + x2) / 2 + (Math.random() - 0.5) * rough;
-      const my = (y1 + y2) / 2 + (Math.random() - 0.5) * rough * 0.4;
-      drawBolt(x1, y1, mx, my, rough / 2, color, w * 0.9, depth - 1);
-      drawBolt(mx, my, x2, y2, rough / 2, color, w * 0.9, depth - 1);
-      if (Math.random() < 0.3 && depth > 2) drawBolt(mx, my, mx + (Math.random() - 0.5) * 180, my + Math.random() * (lCanvas.height * 0.35), rough / 3, color, w * 0.4, depth - 2);
-      
-      lCtx.beginPath(); lCtx.moveTo(x1, y1); lCtx.lineTo(mx, my); lCtx.lineTo(x2, y2);
-      lCtx.strokeStyle = color; lCtx.lineWidth = w; lCtx.shadowBlur = 20; lCtx.shadowColor = color; lCtx.globalAlpha = 0.9; lCtx.stroke();
-    }
-
-    function flash(v: string) {
-      if (!flashEl) return;
-      flashEl.style.transition = 'none'; flashEl.style.opacity = v;
-      setTimeout(() => { flashEl.style.transition = 'opacity .4s ease'; flashEl.style.opacity = '0'; }, 60 + Math.random() * 80);
-    }
-
-    function triggerLightning() {
-      if (!stormRunning || !lCtx) return;
-      const c1 = isDark ? 'rgba(200,255,0,.5)' : 'rgba(232,0,13,.5)';
-      const c2 = isDark ? 'rgba(200,255,0,.8)' : 'rgba(232,0,13,.8)';
-      const fc = isDark ? 'rgba(200,255,0,0.1)' : 'rgba(232,0,13,0.07)';
-      
-      lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
-      const sx = lCanvas.width * (0.1 + Math.random() * 0.8);
-      const ex = sx + (Math.random() - 0.5) * 400;
-      const ey = lCanvas.height * (0.4 + Math.random() * 0.5);
-      
-      [{ w: 12, a: 0.06, c: c1 }, { w: 6, a: 0.18, c: c2 }, { w: 2, a: 1, c: '#fff' }]
-        .forEach(p => { 
-          if (lCtx) { lCtx.globalAlpha = p.a; lCtx.shadowBlur = 40; drawBolt(sx, 0, ex, ey, 180, p.c, p.w, 7); } 
-        });
-        
-      if (flashEl) flashEl.style.background = fc; 
-      flash('0.14'); setTimeout(() => flash('0.26'), 60);
-      setTimeout(() => lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height), 180 + Math.random() * 120);
-    }
-
-    function scheduleLightning() { 
-      if (!stormRunning) return; 
-      stormTimer = setTimeout(() => { triggerLightning(); scheduleLightning(); }, 2500 + Math.random() * 7000); 
-    }
-    
-    lCanvas.style.opacity = '1';
-    const initialTimer = setTimeout(() => { triggerLightning(); scheduleLightning(); }, 800);
-
-    return () => {
-      stormRunning = false;
-      clearTimeout(stormTimer);
-      clearTimeout(initialTimer);
-      window.removeEventListener('resize', resize);
-      if (lCtx) lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
-    };
-  }, [isDark]);
 
   // 2. Brevo Form MutationObserver
   useEffect(() => {
@@ -112,7 +41,61 @@ export default function Contact() {
   }, []);
 
   return (
-    <>
+    <div className="contact-page-wrapper" style={{ backgroundColor: '#F1F2EF', minHeight: '100vh', paddingBottom: '40px' }}>
+      <style>{`
+        /* Button */
+        .contact-page-wrapper .sib-form-block__button { color: #111827 !important; border-color: #111827 !important; }
+        .contact-page-wrapper .sib-form-block__button:hover { background: #111827 !important; color: #F1F2EF !important; }
+        
+        /* Headers & Labels */
+        .contact-page-wrapper .page-eyebrow { color: #111827 !important; }
+        .contact-page-wrapper .page-eyebrow::before { background: #111827 !important; }
+        .contact-page-wrapper .contact-block-label { color: #111827 !important; }
+        .contact-page-wrapper .response-note-label { color: #111827 !important; }
+        .contact-page-wrapper .form-label { color: #111827 !important; }
+
+        /* Links & Hover States */
+        .contact-page-wrapper .contact-email:hover { color: #111827 !important; }
+        .contact-page-wrapper .social-row:hover { border-bottom-color: #111827 !important; }
+        .contact-page-wrapper .social-row:hover .social-name, 
+        .contact-page-wrapper .social-row:hover .social-arrow { color: #111827 !important; transform: none !important; }
+
+        /* Form Inputs */
+        .contact-page-wrapper .form__entry:focus-within .entry__label { color: #111827 !important; }
+        .contact-page-wrapper .input:focus { border-color: #111827 !important; box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.1) !important; }
+
+        /* Messages */
+        .contact-page-wrapper #success-message { color: #111827 !important; border-color: #111827 !important; background: rgba(17, 24, 39, 0.05) !important; }
+        
+        /* Premium Support Card */
+        @keyframes pulseGlow {
+          0% { box-shadow: 0 0 0 0 rgba(200, 255, 0, 0.4); }
+          70% { box-shadow: 0 0 0 8px rgba(200, 255, 0, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(200, 255, 0, 0); }
+        }
+        
+        .premium-support-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+          border-color: #d1d5db;
+        }
+
+        .premium-support-card:hover .support-icon-wrapper {
+          transform: scale(1.05) rotate(-4deg);
+          background-color: #111827 !important;
+          color: #ffffff !important;
+        }
+
+        .support-action-btn:hover {
+          background-color: #111827 !important;
+          color: #ffffff !important;
+          border-color: #111827 !important;
+        }
+
+        .support-action-btn:hover .action-arrow {
+          transform: translateX(4px);
+        }
+      `}</style>
       {/* BREVO CONFIG SCRIPTS */}
       <Script 
         id="brevo-config" 
@@ -131,16 +114,96 @@ export default function Contact() {
       />
       <Script strategy="afterInteractive" src="https://sibforms.com/forms/end-form/build/main.js" />
 
-      {/* BACKGROUND CANVAS */}
-      <canvas id="stormCanvas"></canvas>
-      <div id="lightningFlash"></div>
-
       {/* PAGE HEADER */}
       <section className="page-header">
         <div className="page-bg">CONTACT</div>
         <div className="page-eyebrow">GET IN TOUCH</div>
-        <h1 className="page-title">Talk<br />To Us<span style={{ color: 'var(--acid)' }}>.</span></h1>
-        <p className="page-sub">// WE READ EVERY MESSAGE. SERIOUSLY.</p>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '40px' }}>
+          <div>
+            <h1 className="page-title">Talk<br />To Us<span style={{ color: 'var(--acid)' }}>.</span></h1>
+            <p className="page-sub" style={{ marginTop: '20px' }}>// WE READ EVERY MESSAGE. SERIOUSLY.</p>
+          </div>
+          
+          <div className="premium-support-card" style={{
+            position: 'relative',
+            zIndex: 10,
+            backgroundColor: '#ffffff',
+            border: '1px solid #e5e7eb',
+            padding: '32px',
+            borderRadius: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px',
+            minWidth: '320px',
+            transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+          }}>
+            
+            {/* Top Section */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                  <div style={{
+                    width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--acid)',
+                    animation: 'pulseGlow 2s infinite'
+                  }}></div>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '11px', letterSpacing: '0.25em', color: '#111827', fontWeight: 700 }}>CALL SUPPORT</span>
+                </div>
+                <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '11px', letterSpacing: '0.15em', color: '#6b7280', paddingLeft: '18px' }}>
+                  10 AM TO 5 PM
+                </div>
+              </div>
+              
+              <div className="support-icon-wrapper" style={{ 
+                color: '#111827', 
+                padding: '12px', 
+                backgroundColor: '#F1F2EF', 
+                borderRadius: '4px', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)' 
+              }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                </svg>
+              </div>
+            </div>
+
+            {/* Main Number */}
+            <div style={{ fontFamily: "'Black Han Sans', sans-serif", fontSize: 'clamp(32px, 8vw, 42px)', color: '#111827', letterSpacing: '0.02em', margin: '4px 0', lineHeight: 1, whiteSpace: 'nowrap' }}>
+              +91 9022281117
+            </div>
+
+            {/* Actions */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <a href="tel:+919022281117" className="support-action-btn" style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', 
+                padding: '16px 24px', backgroundColor: '#111827', color: '#ffffff', border: '1px solid #111827',
+                textDecoration: 'none', fontFamily: "'Share Tech Mono', monospace", fontSize: '11px', 
+                letterSpacing: '0.2em', textTransform: 'uppercase', transition: 'all 0.3s', borderRadius: '2px'
+              }}>
+                <span>CALL NOW</span>
+                <svg className="action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transition: 'transform 0.3s' }}>
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+              
+              <a href="https://wa.me/919022281117" className="support-action-btn" style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', 
+                padding: '16px 24px', backgroundColor: 'transparent', border: '1px solid #d1d5db', color: '#111827', 
+                textDecoration: 'none', fontFamily: "'Share Tech Mono', monospace", fontSize: '11px', 
+                letterSpacing: '0.2em', textTransform: 'uppercase', transition: 'all 0.3s', borderRadius: '2px'
+              }}>
+                <span>WHATSAPP</span>
+                <svg className="action-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transition: 'transform 0.3s' }}>
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+
+          </div>
+        </div>
       </section>
 
       {/* CONTACT LAYOUT */}
@@ -272,6 +335,6 @@ export default function Contact() {
         </div>
 
       </div>
-    </>
+    </div>
   );
 }

@@ -399,7 +399,7 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
         </div>
 
         <Link href="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center', padding: '4px 0', marginLeft: '-24px' }}>
-          <Image src="/logo.png?v=2" alt="CONQRETE Logo" width={140} height={48} style={{ objectFit: 'contain' }} priority unoptimized />
+          <Image src="/conqrete-logo.png" alt="CONQRETE Logo" width={90} height={50} style={{ objectFit: 'contain' }} priority unoptimized />
         </Link>
 
         {/* DESKTOP LINKS */}
@@ -504,13 +504,13 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
               <div className="face front">
                 <div className="bag-handle-3d"></div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingTop: '4px' }}>
-                  <Image src="/logo.png?v=2" alt="C" width={16} height={5} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
+                  <Image src="/conqrete-logo.png" alt="C" width={14} height={9} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
                 </div>
               </div>
               <div className="face back">
                 <div className="bag-handle-3d"></div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingTop: '4px' }}>
-                  <Image src="/logo.png?v=2" alt="C" width={16} height={5} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
+                  <Image src="/conqrete-logo.png" alt="C" width={14} height={9} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
                 </div>
               </div>
               <div className="face left"></div>
@@ -536,13 +536,13 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
               <div className="face front">
                 <div className="bag-handle-3d"></div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingTop: '4px' }}>
-                  <Image src="/logo.png?v=2" alt="C" width={16} height={5} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
+                  <Image src="/conqrete-logo.png" alt="C" width={14} height={9} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
                 </div>
               </div>
               <div className="face back">
                 <div className="bag-handle-3d"></div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', paddingTop: '4px' }}>
-                  <Image src="/logo.png?v=2" alt="C" width={16} height={5} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
+                  <Image src="/conqrete-logo.png" alt="C" width={14} height={9} style={{ objectFit: 'contain', opacity: 0.8 }} unoptimized />
                 </div>
               </div>
               <div className="face left"></div>

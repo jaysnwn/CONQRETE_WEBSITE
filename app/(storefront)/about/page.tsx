@@ -9,7 +9,7 @@ export default function About() {
   
 
   return (
-    <div style={{ backgroundColor: '#fafafa', minHeight: '100vh', position: 'relative', zIndex: 1, ...{ '--acid': '#84a800' } } as React.CSSProperties}>
+    <div style={{ backgroundColor: '#fafafa', minHeight: '100vh', position: 'relative', zIndex: 1, ...{ '--acid': '#111827' } } as React.CSSProperties}>
       
       
       
@@ -18,7 +18,7 @@ export default function About() {
       <section className="about-hero">
         <div className="hero-bg-text">CONQRETE</div>
         <div className="about-eyebrow">EST. 2025 — INDIA</div>
-        <h1 className="about-headline">Built<br />Different<span className="accent">.</span></h1>
+        <h1 className="about-headline">Built<br />Different<span className="accent" style={{ color: '#c8ff00' }}>.</span></h1>
         <p className="about-intro">CONQRETE was born from frustration. Overpriced gear that breaks. Cheap tech that disappoints. We're building the middle ground that never existed — uncompromising quality at a real price.</p>
       </section>
 
@@ -31,7 +31,7 @@ export default function About() {
         <div className="manifesto-body">
           <p>Tech accessories have been commoditised into mediocrity. Everything looks the same, breaks the same, and disappoints the same. We refuse to be part of that.</p>
           <p>CONQRETE is built around one idea: your gear should be able to keep up with you. Not the other way around. Every product we make goes through brutal real-world testing before it ever reaches your hands.</p>
-          <p>We started in 2025 with four products. Earphones. Power banks. Cables. Adapters. Simple. Focused. Uncompromising. This is just the beginning.</p>
+          <p>We started in 2025 with three products. Power banks. Cables. Adapters. Simple. Focused. Uncompromising. This is just the beginning.</p>
         </div>
       </section>
 
@@ -69,17 +69,17 @@ export default function About() {
         </div>
         <div className="founder-body">
           <p>The idea for CONQRETE came from a simple observation: the accessories market in India was flooded with products that were either overpriced imports or cheap knockoffs that lasted three months.</p>
-          <p>We started with four categories because we use all four every single day. Earphones for the commute. Power banks for the long days. Cables that don't fray. Adapters that actually charge fast. Products built around real life.</p>
+          <p>We started with three categories because we use all three every single day. Power banks for the long days. Cables that don't fray. Adapters that actually charge fast. Products built around real life.</p>
           <p>We're not here to be another brand. We're here to set a new standard.</p>
         </div>
       </section>
 
             {/* BRANDING SECTION */}
       <section style={{ padding: '100px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '40px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#fafafa' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <img src="/rhino-logo.png" alt="Rhino Icon" style={{ height: '100px', objectFit: 'contain' }} />
-          <div style={{ width: '4px', height: '80px', backgroundColor: '#84a800' }}></div>
-          <img src="/logo.png?v=2" alt="CONQRETE Logo" style={{ height: '70px', objectFit: 'contain' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(16px, 4vw, 28px)', flexWrap: 'nowrap', justifyContent: 'center', width: '100%' }}>
+          <img src="/rhino-logo.png" alt="Rhino Icon" style={{ height: 'clamp(60px, 20vw, 110px)', width: 'auto', objectFit: 'contain' }} />
+          <div style={{ width: 'clamp(2px, 0.5vw, 4px)', height: 'clamp(50px, 16vw, 90px)', backgroundColor: '#111827', flexShrink: 0 }}></div>
+          <img src="/conqrete-stacked-logo.png" alt="CONQRETE Logo" style={{ height: 'clamp(60px, 20vw, 110px)', width: 'auto', objectFit: 'contain' }} />
         </div>
         <h2 style={{ fontFamily: '"Share Tech Mono", monospace', fontSize: 'clamp(18px, 4vw, 32px)', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#111827', margin: 0, textAlign: 'center', fontWeight: 900 }}>
           Built for your daily abuse
@@ -87,9 +87,9 @@ export default function About() {
       </section>
 
       {/* CTA STRIP */}
-      <div className="cta-strip">
-        <div className="cta-text">See what we have<br /><span>built.</span></div>
-        <Link href="/products" className="cta-btn">VIEW PRODUCTS</Link>
+      <div className="cta-strip" style={{ backgroundColor: '#c8ff00' }}>
+        <div className="cta-text">See what we have<br /><span style={{ color: '#111827', WebkitTextStroke: '0' }}>built.</span></div>
+        <style>{".about-cta-btn { color: #ffffff !important; } .about-cta-btn:hover { color: #111827 !important; }"}</style><Link href="/products" className="cta-btn about-cta-btn">VIEW PRODUCTS</Link>
       </div>
     </div>
   );

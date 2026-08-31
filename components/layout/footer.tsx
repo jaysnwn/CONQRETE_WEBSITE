@@ -21,11 +21,11 @@ export default function Footer() {
           margin: 0 auto;
         }
         
-        /* 4-Column Professional Grid - Tweaked to give the email column more room */
+        /* 5-Column Professional Grid - Added Support column */
         .footer-grid {
           display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1.2fr;
-          gap: 4rem;
+          grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+          gap: 3rem;
         }
         .footer-col {
           display: flex;
@@ -106,18 +106,26 @@ export default function Footer() {
             <span className="footer-col-title">// EXPLORE</span>
             <Link href="/products" className="footer-link">PRODUCTS</Link>
             <Link href="/about" className="footer-link">ABOUT US</Link>
-            <Link href="/contact" className="footer-link">CONTACT</Link>
           </div>
 
-          {/* Col 3: Legal */}
+          {/* Col 3: Support */}
+          <div className="footer-col">
+            <span className="footer-col-title">// SUPPORT</span>
+            <Link href="/contact" className="footer-link">CONTACT US</Link>
+            <Link href="/faqs" className="footer-link">FAQS</Link>
+            <Link href="/warranty-policy" className="footer-link">WARRANTY CLAIMS</Link>
+          </div>
+
+          {/* Col 4: Legal */}
           <div className="footer-col">
             <span className="footer-col-title">// LEGAL</span>
-            <Link href="#" className="footer-link">PRIVACY POLICY</Link>
-            <Link href="#" className="footer-link">TERMS OF USE</Link>
-            <Link href="#" className="footer-link">WARRANTY POLICY</Link>
+            <Link href="/privacy-policy" className="footer-link">PRIVACY POLICY</Link>
+            <Link href="/terms-of-use" className="footer-link">TERMS OF USE</Link>
+            <Link href="/warranty-policy" className="footer-link">WARRANTY POLICY</Link>
+            <Link href="/shipping-returns" className="footer-link">SHIPPING & RETURNS</Link>
           </div>
 
-          {/* Col 4: Contact */}
+          {/* Col 5: Contact */}
           <div className="footer-col">
             <span className="footer-col-title">// DIRECT LINE</span>
             <a href="mailto:ask@conqrete.in" style={{ 
