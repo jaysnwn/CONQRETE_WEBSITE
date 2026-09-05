@@ -2,7 +2,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { FAQ } from '#/app/(storefront)/faqs/faq-data';
+import { FAQ } from '#/app/(storefront)/support/faqs/faq-data';
 
 export async function saveFaqData(newFaqs: FAQ[]) {
   try {

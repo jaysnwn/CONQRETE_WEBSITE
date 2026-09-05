@@ -1,9 +1,19 @@
+import { Metadata } from 'next';
 import { getPublicProducts } from '#/features/products/actions';
-import ProductsClient from '../products/productsclient';
+import ProductsClient from '../productsclient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function PowerBanksPage() {
+
+export const metadata: Metadata = {
+  title: 'Fast Chargers & Adapters | CONQRETE',
+  description: 'Shop premium, abuse-resistant fast chargers, GaN adapters, and USB-C wall plugs from CONQRETE.',
+  alternates: {
+    canonical: 'https://conqrete.in/products/chargers',
+  }
+};
+
+export default async function AdaptersPage() {
   const { data: products, error } = await getPublicProducts();
 
   if (error) {
@@ -24,8 +34,8 @@ export default async function PowerBanksPage() {
     );
   }
 
-  // Filter for power banks using the updated slug logic from the database
-  const filtered = products.filter(p => p.category?.slug?.includes('bank'));
+  // Filter for adapters using the updated slug logic from the database
+  const filtered = products.filter(p => p.category?.slug?.includes('adapter'));
 
-  return <ProductsClient products={filtered} hideFilters={true} title="Power Banks" />;
+  return <ProductsClient products={filtered} hideFilters={true} title="Power Adapters" />;
 }

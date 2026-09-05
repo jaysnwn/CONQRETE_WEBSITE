@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import React, { useState } from 'react';
-import { FAQ, CATEGORIES, Category } from '#/app/(storefront)/faqs/faq-data';
+import { FAQ, CATEGORIES, Category } from '#/app/(storefront)/support/faqs/faq-data';
 import { saveFaqData } from './actions';
 import { useRouter } from 'next/navigation';
 

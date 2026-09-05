@@ -398,8 +398,93 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
           </button>
         </div>
 
-        <Link href="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center', padding: '4px 0', marginLeft: '-24px' }}>
-          <Image src="/conqrete-logo.png" alt="CONQRETE Logo" width={90} height={50} style={{ objectFit: 'contain' }} priority unoptimized />
+        <Link href="/" className="nav-logo glitch-logo-container" style={{ display: 'flex', alignItems: 'center', padding: '4px 0', marginLeft: '-24px' }}>
+          <style>{`
+            .glitch-logo-container .glitch-rhino {
+              position: absolute;
+              opacity: 1;
+              animation: rhino-loop 20s infinite;
+            }
+            .glitch-logo-container .glitch-text {
+              position: absolute;
+              opacity: 0;
+              animation: text-loop 20s infinite;
+            }
+            .glitch-logo-container:hover .glitch-rhino {
+              animation: hover-glitch-rhino 1.5s forwards !important;
+            }
+            .glitch-logo-container:hover .glitch-text {
+              animation: hover-glitch-text 1.5s forwards !important;
+            }
+            
+            @keyframes rhino-loop {
+              0%, 35% { opacity: 1; filter: none; }
+              /* Phase 1: Glitch Surge */
+              35.5% { opacity: 0.2; filter: drop-shadow(0 0 8px red); }
+              36.5% { opacity: 0.9; filter: none; }
+              37.5% { opacity: 0.1; filter: drop-shadow(0 0 8px #c8ff00); }
+              38.5% { opacity: 0.8; filter: none; }
+              39.5% { opacity: 0.3; filter: drop-shadow(0 0 8px red); }
+              40.0% { opacity: 1; filter: none; }
+              /* Phase 2: Smooth Fade Out */
+              45.0% { opacity: 0; filter: none; }
+              45.1%, 85% { opacity: 0; filter: none; }
+              /* Phase 3: Smooth Fade In */
+              90.0% { opacity: 1; filter: none; }
+              /* Phase 4: Stabilizing Glitch */
+              90.5% { opacity: 0.3; filter: drop-shadow(0 0 8px #c8ff00); }
+              91.5% { opacity: 0.8; filter: none; }
+              92.5% { opacity: 0.1; filter: drop-shadow(0 0 8px red); }
+              93.5% { opacity: 0.9; filter: none; }
+              94.5% { opacity: 0.2; filter: drop-shadow(0 0 8px #c8ff00); }
+              95%, 100% { opacity: 1; filter: none; }
+            }
+
+            @keyframes text-loop {
+              0%, 39.9% { opacity: 0; filter: none; }
+              /* Phase 1: Smooth Fade In */
+              45.0% { opacity: 1; filter: none; }
+              /* Phase 2: Stabilizing Glitch */
+              45.5% { opacity: 0.2; filter: drop-shadow(0 0 8px #c8ff00); }
+              46.5% { opacity: 0.9; filter: none; }
+              47.5% { opacity: 0.1; filter: drop-shadow(0 0 8px red); }
+              48.5% { opacity: 0.8; filter: none; }
+              49.5% { opacity: 0.3; filter: drop-shadow(0 0 8px #c8ff00); }
+              50.0% { opacity: 1; filter: none; }
+              /* Solid State */
+              50.1%, 85% { opacity: 1; filter: none; }
+              /* Phase 3: Glitch Surge */
+              85.5% { opacity: 0.3; filter: drop-shadow(0 0 8px red); }
+              86.5% { opacity: 0.8; filter: none; }
+              87.5% { opacity: 0.1; filter: drop-shadow(0 0 8px #c8ff00); }
+              88.5% { opacity: 0.9; filter: none; }
+              89.5% { opacity: 0.2; filter: drop-shadow(0 0 8px red); }
+              90.0% { opacity: 1; filter: none; }
+              /* Phase 4: Smooth Fade Out */
+              95%, 100% { opacity: 0; filter: none; }
+            }
+            
+            @keyframes hover-glitch-rhino {
+              0% { opacity: 1; filter: none; }
+              10% { opacity: 0.2; filter: drop-shadow(0 0 8px red); }
+              20% { opacity: 0.9; filter: none; }
+              30% { opacity: 0.1; filter: drop-shadow(0 0 8px #c8ff00); }
+              40% { opacity: 1; filter: none; }
+              100% { opacity: 0; filter: none; }
+            }
+            @keyframes hover-glitch-text {
+              0%, 40% { opacity: 0; filter: none; }
+              80% { opacity: 1; filter: none; }
+              85% { opacity: 0.2; filter: drop-shadow(0 0 8px #c8ff00); }
+              90% { opacity: 0.9; filter: none; }
+              95% { opacity: 0.1; filter: drop-shadow(0 0 8px red); }
+              100% { opacity: 1; filter: none; }
+            }
+          `}</style>
+          <div style={{ position: 'relative', width: '140px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Image src="/logo.png?v=2" alt="CONQRETE Rhino" width={140} height={48} style={{ objectFit: 'contain' }} priority unoptimized className="glitch-rhino" />
+            <Image src="/conqrete-logo.png" alt="CONQRETE Text" width={90} height={48} style={{ objectFit: 'contain' }} priority unoptimized className="glitch-text" />
+          </div>
         </Link>
 
         {/* DESKTOP LINKS */}

@@ -1,9 +1,19 @@
+import { Metadata } from 'next';
 import { getPublicProducts } from '#/features/products/actions';
-import ProductsClient from '../products/productsclient';
+import ProductsClient from '../productsclient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdaptersPage() {
+
+export const metadata: Metadata = {
+  title: 'USB-C Fast Charging Cables | CONQRETE',
+  description: 'Durable, braided USB-C and fast charging cables built to withstand daily abuse. Shop CONQRETE.',
+  alternates: {
+    canonical: 'https://conqrete.in/products/cables',
+  }
+};
+
+export default async function CablesPage() {
   const { data: products, error } = await getPublicProducts();
 
   if (error) {
@@ -24,8 +34,8 @@ export default async function AdaptersPage() {
     );
   }
 
-  // Filter for adapters using the updated slug logic from the database
-  const filtered = products.filter(p => p.category?.slug?.includes('adapter'));
+  // Filter for cables using the updated slug logic from the database
+  const filtered = products.filter(p => p.category?.slug?.includes('cable'));
 
-  return <ProductsClient products={filtered} hideFilters={true} title="Power Adapters" />;
+  return <ProductsClient products={filtered} hideFilters={true} title="Power Cables" />;
 }

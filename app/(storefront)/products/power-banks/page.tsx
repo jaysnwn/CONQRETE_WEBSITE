@@ -1,9 +1,19 @@
+import { Metadata } from 'next';
 import { getPublicProducts } from '#/features/products/actions';
-import ProductsClient from '../products/productsclient';
+import ProductsClient from '../productsclient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CablesPage() {
+
+export const metadata: Metadata = {
+  title: 'Portable Power Banks | CONQRETE',
+  description: 'High-capacity fast charging power banks for travel and daily use. Stay powered with CONQRETE.',
+  alternates: {
+    canonical: 'https://conqrete.in/products/power-banks',
+  }
+};
+
+export default async function PowerBanksPage() {
   const { data: products, error } = await getPublicProducts();
 
   if (error) {
@@ -24,8 +34,8 @@ export default async function CablesPage() {
     );
   }
 
-  // Filter for cables using the updated slug logic from the database
-  const filtered = products.filter(p => p.category?.slug?.includes('cable'));
+  // Filter for power banks using the updated slug logic from the database
+  const filtered = products.filter(p => p.category?.slug?.includes('bank'));
 
-  return <ProductsClient products={filtered} hideFilters={true} title="Power Cables" />;
+  return <ProductsClient products={filtered} hideFilters={true} title="Power Banks" />;
 }

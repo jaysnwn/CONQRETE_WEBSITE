@@ -1,7 +1,34 @@
+import { Breadcrumbs } from '#/components/ui/breadcrumbs';
+import { Metadata } from 'next';
 import { getProductBySlug } from '#/features/products/actions';
 import { notFound } from 'next/navigation';
 import ProductDetailClient from './productdetailclient';
 import { createClient } from '#/utils/supabase/server';
+
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { data: product } = await getProductBySlug(resolvedParams.slug);
+
+  if (!product) {
+    return { title: 'Product Not Found | CONQRETE' };
+  }
+
+  const plainTextDesc = product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 155) : `Buy the ${product.title} at CONQRETE.`;
+
+  return {
+    title: `${product.title} | CONQRETE`,
+    description: plainTextDesc,
+    openGraph: {
+      title: `${product.title} | CONQRETE`,
+      description: plainTextDesc,
+      images: product.images?.[0] ? [{ url: product.images[0] }] : [],
+    },
+    alternates: {
+      canonical: `https://conqrete.in/products/${product.slug}`,
+    }
+  };
+}
 
 export default async function ProductDetailPage({ 
   params 
@@ -49,5 +76,41 @@ export default async function ProductDetailPage({
     created_at: r.created_at,
   }));
 
-  return <ProductDetailClient product={product} relatedProducts={normalizedRelated} reviews={reviews} />;
+  
+  const plainTextDesc = product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 155) : `Buy the ${product.title} at CONQRETE.`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "image": product.images || [],
+    "description": plainTextDesc,
+    "sku": product.sku || product.slug,
+    "brand": {
+      "@type": "Brand",
+      "name": "CONQRETE"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://conqrete.in/products/${product.slug}`,
+      "priceCurrency": "INR",
+      "price": product.price || 0,
+      "availability": product.is_active ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <Breadcrumbs 
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'Products', href: '/products' },
+          { name: product.category?.name || 'Category', href: `/products/${product.category?.slug || 'all'}` },
+          { name: product.title, href: `/products/${product.slug}` }
+        ]} 
+      />
+      <ProductDetailClient product={product} relatedProducts={normalizedRelated} reviews={reviews} />
+    </>
+  );
 }
