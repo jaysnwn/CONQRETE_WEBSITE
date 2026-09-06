@@ -450,3 +450,8 @@ footer { padding:40px; display:flex; justify-content:space-between; align-items:
 .admin-brand-mark { display:grid; width:34px; height:34px; place-items:center; border-radius:10px; background:var(--admin-lime); color:#101111; font-family:Arial,sans-serif; font-size:20px; font-weight:900; }
 .admin-brand strong,.admin-brand small { display:block; }.admin-brand strong { font-size:13px; letter-spacing:.13em; }.admin-brand small { margin-top:3px; color:var(--admin-muted); font-size:8px; font-weight:700; letter-spacing:.17em; }
 .admin-nav { display:flex; flex:1; flex-direction:column; gap:5px; margin-top:58px; }.admin-nav-label { padding:0 12px 10px; color:#666e69; font-size:10px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; }
+@keyframes scan {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(224px); }
+  100% { transform: translateY(0); }
+}

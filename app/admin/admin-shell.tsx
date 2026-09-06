@@ -8,6 +8,8 @@ import './admin.css';
 import './professional.css';
 
 const navItems = [
+  { href: '/admin/warranty', label: 'Warranty', icon: 'shield', requiredPermission: 'dashboard.view' },
+
   { href: '/admin', label: 'Overview', icon: 'grid', requiredPermission: 'dashboard.view' },
   { href: '/admin/orders', label: 'Orders', icon: 'receipt', requiredPermission: 'orders.view' },
   { href: '/admin/products', label: 'Products', icon: 'box', requiredPermission: 'products.view' },

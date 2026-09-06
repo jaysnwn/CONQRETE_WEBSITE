@@ -106,6 +106,7 @@ export default function Footer() {
             <span className="footer-col-title">// EXPLORE</span>
             <Link href="/products" className="footer-link">PRODUCTS</Link>
             <Link href="/about" className="footer-link">ABOUT US</Link>
+            <Link href="/verify" className="footer-link">VERIFY PRODUCT</Link>
           </div>
 
           {/* Col 3: Support */}
