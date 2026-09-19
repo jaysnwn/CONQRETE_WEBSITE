@@ -1,9 +1,16 @@
-import React from 'react';
+﻿import React from 'react';
+import BrandLoader from '@/components/BrandLoader';
 
 export default function AccountLoading() {
   return (
-    <div style={{ backgroundColor: '#f4f4f5', minHeight: '100vh', padding: '140px 2rem 5rem 2rem', color: '#000' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ position: 'relative', backgroundColor: '#f4f4f5', minHeight: '100vh', padding: '140px 2rem 5rem 2rem', color: '#000' }}>
+      
+      {/* Absolute centered BrandLoader */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10, pointerEvents: 'none' }}>
+        <BrandLoader size={160} />
+      </div>
+
+      <div style={{ maxWidth: '800px', margin: '0 auto', opacity: 0.3 }}>
         
         {/* HEADER */}
         <div style={{ borderBottom: '4px solid #e5e7eb', paddingBottom: '1rem', marginBottom: '3rem' }}>

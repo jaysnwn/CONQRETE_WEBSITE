@@ -1,9 +1,16 @@
-import React from 'react';
+﻿import React from 'react';
+import BrandLoader from '@/components/BrandLoader';
 
 export default function ProductDetailLoading() {
   return (
-    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
+    <div style={{ position: 'relative', backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      
+      {/* Absolute centered BrandLoader */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10, pointerEvents: 'none' }}>
+        <BrandLoader size={160} />
+      </div>
+
+      <div style={{ maxWidth: '1360px', margin: '0 auto', opacity: 0.3 }}>
         <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', padding: 'clamp(24px, 4vw, 40px)', marginBottom: '40px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
           
           {/* Breadcrumb Skeleton */}
@@ -42,19 +49,23 @@ export default function ProductDetailLoading() {
               <div style={{ width: '100%', height: '56px', backgroundColor: '#f3f4f6', borderRadius: '8px', marginBottom: '32px', animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
             </div>
           </div>
-          <style>{`
-            @keyframes pulse {
-              0%, 100% { opacity: 1; }
-              50% { opacity: .5; }
-            }
-            @media (max-width: 768px) {
-              .skeleton-gallery { flex-direction: column-reverse !important; gap: 12px !important; }
-              .skeleton-thumbnails { flex-direction: row !important; width: 100% !important; overflow: hidden; }
-              .skeleton-thumbnails > div { width: 70px !important; height: 70px !important; }
-            }
-          `}</style>
         </div>
       </div>
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: .5; }
+        }
+        @media (max-width: 768px) {
+          .skeleton-gallery {
+            flex-direction: column-reverse !important;
+          }
+          .skeleton-thumbnails {
+            flex-direction: row !important;
+            width: 100% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
