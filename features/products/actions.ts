@@ -1,5 +1,7 @@
 'use server';
 
+import { cache } from 'react';
+
 import {
   getProductBySlug as getProductBySlugService,
   listAdminProducts as listAdminProductsService,
@@ -18,14 +20,14 @@ export async function getPublicProducts(): Promise<ProductQueryResult<ProductSum
   }
 }
 
-export async function getProductBySlug(slug: string): Promise<ProductQueryResult<ProductDetail | null>> {
+export const getProductBySlug = cache(async (slug: string): Promise<ProductQueryResult<ProductDetail | null>> => {
   try {
     const data = await getProductBySlugService(slug);
     return { data, error: null };
   } catch (error) {
     return toQueryResult<ProductDetail | null>(null, error);
   }
-}
+});
 
 export async function getAdminProducts(): Promise<ProductQueryResult<ProductSummary[]>> {
   try {

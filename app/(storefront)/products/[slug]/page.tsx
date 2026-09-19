@@ -43,14 +43,25 @@ export default async function ProductDetailPage({
 
   const supabase = await createClient();
   
-  // 1. Fetch related products (latest products excluding this one)
-  const { data: relatedProductsData } = await supabase
-    .from('products')
-    .select('id, title, slug, images, tags, category:categories(name, slug), variants:product_variants(id, price, compare_at_price, stock_quantity, image_url, color, capacity)')
-    .eq('is_active', true)
-    .neq('id', product.id)
-    .order('created_at', { ascending: false })
-    .limit(5);
+  // Fetch related products and reviews CONCURRENTLY
+  const [relatedResponse, reviewsResponse] = await Promise.all([
+    supabase
+      .from('products')
+      .select('id, title, slug, images, tags, category:categories(name, slug), variants:product_variants(id, price, compare_at_price, stock_quantity, image_url, color, capacity)')
+      .eq('is_active', true)
+      .neq('id', product.id)
+      .order('created_at', { ascending: false })
+      .limit(5),
+    supabase
+      .from('product_reviews')
+      .select('*, customers(first_name, last_name)')
+      .eq('product_id', product.id)
+      .eq('is_approved', true)
+      .order('created_at', { ascending: false })
+  ]);
+
+  const relatedProductsData = relatedResponse.data;
+  const reviewsData = reviewsResponse.data;
 
   // Normalize related products for the Storefront Card format
   const normalizedRelated = (relatedProductsData || []).map(p => ({
@@ -58,14 +69,6 @@ export default async function ProductDetailPage({
     price: p.variants?.[0]?.price || 0,
     compare_at_price: p.variants?.[0]?.compare_at_price || null,
   }));
-
-  // 2. Fetch reviews
-  const { data: reviewsData } = await supabase
-    .from('product_reviews')
-    .select('*, customers(first_name, last_name)')
-    .eq('product_id', product.id)
-    .eq('is_approved', true)
-    .order('created_at', { ascending: false });
     
   const reviews = (reviewsData || []).map(r => ({
     id: r.id,
