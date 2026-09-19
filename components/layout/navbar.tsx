@@ -64,6 +64,7 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   
   const { toggleCart, items } = useCartStore();
@@ -489,9 +490,9 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
 
         {/* DESKTOP LINKS */}
         <div className="desktop-nav-links">
-          <Link href="/adapters" className="desktop-link">Power Adapters</Link>
+          <Link href="/products/chargers" className="desktop-link">Power Adapters</Link>
           <Link href="/cables" className="desktop-link">Power Cables</Link>
-          <Link href="/powerbanks" className="desktop-link">Power Banks</Link>
+          <Link href="/products/power-banks" className="desktop-link">Power Banks</Link>
           <Link href="/products" className="desktop-link">View All</Link>
         </div>
 
@@ -534,22 +535,20 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
               }}>
                 {isLoggedIn ? (
                   <>
-                    <a href="/account" 
+                    <Link href="/account" 
                       style={{ padding: '14px 16px', color: '#111827', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid #f3f4f6', fontSize: '13px', transition: 'background 0.2s' }} 
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'} 
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
                       onClick={() => setProfileOpen(false)}
                     >
-                      Account
-                    </a>
-                    <a href="/orders" 
+                      Account</Link>
+                    <Link href="/orders" 
                       style={{ padding: '14px 16px', color: '#111827', fontWeight: 600, textDecoration: 'none', borderBottom: '1px solid #f3f4f6', fontSize: '13px', transition: 'background 0.2s' }} 
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'} 
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'} 
                       onClick={() => setProfileOpen(false)}
                     >
-                      Orders
-                    </a>
+                      Orders</Link>
                     <form action="/api/auth/logout" method="POST" style={{ margin: 0 }}>
                       <button type="submit"
                         style={{ width: '100%', textAlign: 'left', padding: '14px 16px', color: '#ef4444', fontWeight: 600, textDecoration: 'none', fontSize: '13px', transition: 'background 0.2s', border: 'none', background: 'transparent', cursor: 'pointer' }} 
@@ -611,7 +610,7 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
           
           <button 
             className="profile-btn"
-            onClick={() => { if (!isLoggedIn) setIsLoginModalOpen(true); else window.location.href = '/account'; }}
+            onClick={() => { if (!isLoggedIn) setIsLoginModalOpen(true); else router.push('/account'); }}
           >
             <ProfileIcon />
           </button>
@@ -640,22 +639,22 @@ export default function Navbar({ isLoggedIn = false, isReviewMode = false }: { i
 
         {/* MOBILE MENU */}
         <div className={`premium-mobile-menu ${menuOpen ? 'open' : ''}`}>
-          <a href="/adapters" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+          <Link href="/products/chargers" onClick={() => setMenuOpen(false)} className="premium-nav-link">
             <span className="premium-icon-wrapper"><NavIconAdapter /></span>
             Power Adapters
-          </a>
-          <a href="/cables" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+          </Link>
+          <Link href="/products/cables" onClick={() => setMenuOpen(false)} className="premium-nav-link">
             <span className="premium-icon-wrapper"><NavIconCable /></span>
             Power Cables
-          </a>
-          <a href="/powerbanks" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+          </Link>
+          <Link href="/products/power-banks" onClick={() => setMenuOpen(false)} className="premium-nav-link">
             <span className="premium-icon-wrapper"><NavIconBank /></span>
             Power Banks
-          </a>
-          <a href="/products" onClick={() => setMenuOpen(false)} className="premium-nav-link">
+          </Link>
+          <Link href="/products" onClick={() => setMenuOpen(false)} className="premium-nav-link">
             <span className="premium-icon-wrapper"><NavIconViewAll /></span>
             View All
-          </a>
+          </Link>
         </div>
       </nav>
 
