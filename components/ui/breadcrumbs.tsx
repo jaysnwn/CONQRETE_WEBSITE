@@ -19,7 +19,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   };
 
   return (
-    <nav aria-label="Breadcrumb" style={{ padding: '16px 0', fontSize: '13px', color: '#6b7280' }}>
+    <div aria-label="Breadcrumb" style={{ padding: '16px 0', fontSize: '13px', color: '#6b7280' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
         {items.map((item, index) => (
@@ -31,6 +31,6 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
           </li>
         ))}
       </ol>
-    </nav>
+    </div>
   );
 }

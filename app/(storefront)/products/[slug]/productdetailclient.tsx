@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Breadcrumbs } from '#/components/ui/breadcrumbs';
 import { useCartStore } from '#/store/cart';
 import ImageCarousel from '#/components/ui/image-carousel';
 import ProductCard from '#/components/ui/product-card';
@@ -64,15 +65,18 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
         <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', padding: 'clamp(24px, 4vw, 40px)', marginBottom: '40px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
           
           {/* Breadcrumb */}
-          <div style={{ paddingBottom: '24px', fontSize: '13px', color: '#6b7280' }}>
-            <Link href="/" style={{ textDecoration: 'none', color: '#6b7280' }}>Home</Link>
-            <span style={{ margin: '0 8px' }}>/</span>
-            <Link href="/products" style={{ textDecoration: 'none', color: '#6b7280' }}>Products</Link>
-            <span style={{ margin: '0 8px' }}>/</span>
-            <span style={{ color: '#111827' }}>{product.title}</span>
+          <div style={{ paddingBottom: '16px' }}>
+            <Breadcrumbs 
+              items={[
+                { name: 'Home', href: '/' },
+                { name: 'Products', href: '/products' },
+                { name: product.category?.name || 'Category', href: `/products/${product.category?.slug || 'all'}` },
+                { name: product.title, href: `/products/${product.slug}` }
+              ]} 
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 450px), 1fr))', gap: 'clamp(24px, 4vw, 60px)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 450px), 1fr))', gap: 'clamp(24px, 4vw, 60px)', alignItems: 'start' }}>
             
             {/* Image Gallery */}
             <div className="product-gallery">
@@ -112,6 +116,7 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
                 gap: 16px;
                 flex-direction: row;
                 height: fit-content;
+                align-items: flex-start;
               }
               .product-thumbnails {
                 display: flex;
@@ -143,6 +148,7 @@ export default function ProductDetailClient({ product, relatedProducts = [], rev
               }
               .product-main-image {
                 flex: 1;
+                width: 100%;
                 position: relative;
                 aspect-ratio: 1/1;
                 background-color: #f3f4f6;

@@ -1,4 +1,3 @@
-import { Breadcrumbs } from '#/components/ui/breadcrumbs';
 import { Metadata } from 'next';
 import { getProductBySlug } from '#/features/products/actions';
 import { notFound } from 'next/navigation';
@@ -102,14 +101,7 @@ export default async function ProductDetailPage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <Breadcrumbs 
-        items={[
-          { name: 'Home', href: '/' },
-          { name: 'Products', href: '/products' },
-          { name: product.category?.name || 'Category', href: `/products/${product.category?.slug || 'all'}` },
-          { name: product.title, href: `/products/${product.slug}` }
-        ]} 
-      />
+
       <ProductDetailClient product={product} relatedProducts={normalizedRelated} reviews={reviews} />
     </>
   );
