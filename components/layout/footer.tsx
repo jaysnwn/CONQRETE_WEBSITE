@@ -112,18 +112,18 @@ export default function Footer() {
           {/* Col 3: Support */}
           <div className="footer-col">
             <span className="footer-col-title">// SUPPORT</span>
-            <Link href="/contact" className="footer-link">CONTACT US</Link>
-            <Link href="/faqs" className="footer-link">FAQS</Link>
-            <Link href="/warranty-policy" className="footer-link">WARRANTY CLAIMS</Link>
+            <Link href="/support/contact" className="footer-link">CONTACT US</Link>
+            <Link href="/support/faqs" className="footer-link">FAQS</Link>
+            <Link href="/support/warranty" className="footer-link">WARRANTY CLAIMS</Link>
           </div>
 
           {/* Col 4: Legal */}
           <div className="footer-col">
             <span className="footer-col-title">// LEGAL</span>
-            <Link href="/privacy-policy" className="footer-link">PRIVACY POLICY</Link>
-            <Link href="/terms-of-use" className="footer-link">TERMS OF USE</Link>
-            <Link href="/warranty-policy" className="footer-link">WARRANTY POLICY</Link>
-            <Link href="/shipping-returns" className="footer-link">SHIPPING & RETURNS</Link>
+            <Link href="/legal/privacy-policy" className="footer-link">PRIVACY POLICY</Link>
+            <Link href="/legal/terms-of-use" className="footer-link">TERMS OF USE</Link>
+            <Link href="/support/warranty" className="footer-link">WARRANTY POLICY</Link>
+            <Link href="/support/shipping-returns" className="footer-link">SHIPPING & RETURNS</Link>
           </div>
 
           {/* Col 5: Contact */}

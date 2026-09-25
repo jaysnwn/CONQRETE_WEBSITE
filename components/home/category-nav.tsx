@@ -5,17 +5,17 @@ import Image from 'next/image';
 const categories = [
   {
     name: 'Power Banks',
-    href: '/powerbanks',
+    href: '/products/power-banks',
     image: '/categories/powerbanks.jpg',
   },
   {
     name: 'Power Cables',
-    href: '/cables',
+    href: '/products/cables',
     image: '/categories/cables.jpg',
   },
   {
     name: 'Power Adapters',
-    href: '/adapters',
+    href: '/products/chargers',
     image: '/categories/adapters.jpg',
   },
   {

@@ -14,12 +14,11 @@ export default function OrdersPage() {
               HARDWARE DEPLOYMENTS
             </h1>
           </div>
-          <a href="/products" style={{ padding: '10px 20px', backgroundColor: '#000', color: '#c8ff00', fontWeight: 900, textDecoration: 'none', fontSize: '12px', letterSpacing: '0.1em', border: '2px solid #000', transition: 'all 0.2s' }}
+          <Link href="/products" style={{ padding: '10px 20px', backgroundColor: '#000', color: '#c8ff00', fontWeight: 900, textDecoration: 'none', fontSize: '12px', letterSpacing: '0.1em', border: '2px solid #000', transition: 'all 0.2s' }}
              onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#c8ff00'; e.currentTarget.style.color = '#000'; }}
              onMouseOut={(e) => { e.currentTarget.style.backgroundColor = '#000'; e.currentTarget.style.color = '#c8ff00'; }}
           >
-            + NEW ACQUISITION
-          </a>
+            + NEW ACQUISITION</Link>
         </div>
 
         {/* ORDER LIST */}

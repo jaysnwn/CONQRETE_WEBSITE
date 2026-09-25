@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -235,7 +236,7 @@ export default function HeroCarousel({ slides = [] }: { slides?: any[] }) {
 
       {/* Hero CTA Buttons */}
       <div className="hero-cta">
-        <a href="/products" className="hero-cta-btn">Shop Now</a>
+        <Link href="/products" className="hero-cta-btn">Shop Now</Link>
       </div>
 
 
